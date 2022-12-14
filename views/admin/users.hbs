@@ -1,0 +1,158 @@
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 20px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+
+
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(20px);
+        -ms-transform: translateX(20px);
+        transform: translateX(20px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-body py-0 px-0 px-sm-3">
+                    <div class="row align-items-center">
+                        <div class="col-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        {{!-- <a class="btn btn-success" href="/admin/add-product">Add Products</a> --}}
+                                        <label>User Management</label>
+                                    </div>
+                                    {{!-- <h4 class="card-title">Hoverable Table</h4>
+                                    <p class="card-description"> Add class <code>.table-hover</code>
+                                    </p> --}}
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Sl.No</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each users}}
+                                                <tr>
+                                                    <th scope="row">{{inc @index}}</td>
+                                                    <td>{{this.username}}</td>
+                                                    <td>{{this.email}}</td>
+                                                    <td>
+                                                        {{#if this.isBlocked}}
+                                                        <label class="btn btn-outline-danger btn-sm">Blocked</label>
+                                                        {{else}}
+                                                        <label class="btn btn-outline-success btn-sm">Active</label>
+                                                        {{/if}}
+                                                    </td>
+                                                    <td>
+                                                        {{#if this.isBlocked}}
+                                                        <label onclick=" unblockUser('{{this._id}}')" class="switch">
+                                                            <input type="checkbox">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        {{else}}
+                                                        <label onclick="blockUser('{{this._id}}')" class="switch">
+                                                            <input type="checkbox" checked>
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        {{/if}}
+                                                    </td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    function unblockUser(userId) {
+
+        window.location.href = "/admin/unblock-user/" + userId
+
+    }
+
+</script>
+
+<script>
+
+    function blockUser(userId) {
+
+        window.location.href = "/admin/block-user/" + userId
+
+    }
+
+</script>
+
+
+
+
+{{!--
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}

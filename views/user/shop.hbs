@@ -1,0 +1,341 @@
+<body onload="pageNumActive({{page}})">
+    
+<section onload="return confirm('hdfjkas')" class="categories_product_main p_80">
+    <div class="container">
+        <div class="categories_main_inner">
+            <div class="row row_disable">
+                <div class="col-lg-9 float-md-right">
+                    <div class="showing_fillter">
+                        <div class="row m0">
+                            <div class="first_fillter">
+                                <h4>Showing 1 to 12 of 30 total</h4>
+                            </div>
+                            <div class="secand_fillter">
+                                <h4>SORT BY :</h4>
+                                <select class="selectpicker">
+                                    <option>Name</option>
+                                    <option>Name 2</option>
+                                    <option>Name 3</option>
+                                </select>
+                            </div>
+                            <div class="third_fillter">
+                                <h4>Show : </h4>
+                                <select class="selectpicker">
+                                    <option>09</option>
+                                    <option>10</option>
+                                    <option>10</option>
+                                </select>
+                            </div>
+                            <div class="four_fillter">
+                                <h4>View</h4>
+                                <a class="active" href="#"><i class="icon_grid-2x2"></i></a>
+                                <a href="#"><i class="icon_grid-3x3"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="categories_product_area">
+                        <div id="productscontainer" class="row">
+                            {{#each products}}
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="l_product_item">
+                                    <div class="l_p_img">
+                                        <a onload="alert('hi')" href="/product-details/{{this._id}}"><img style="height: 318px;width: 269px;"
+                                                src="/images/product/{{this.img.[0]}}" alt=""></a>
+                                        {{#if this.discount.status}}
+                                        {{#if this.subCatDiscount.status}}
+                                        {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                                        <h5 class="new bg-danger">sale</h5>
+                                        <h5 class="new px-1" style="margin-left: 175px;background: darkmagenta;">
+                                            {{../this.subCatDiscount.percent}}%OFF</h5>
+                                        {{else}}
+                                        <h5 class="new" style="background: rgb(9, 175, 106);">sale</h5>
+                                        <h5 class="new bg-danger px-1" style="margin-left: 175px;">
+                                            {{../this.discount.percent}}%OFF</h5>
+                                        {{/when}}
+                                        {{else}}
+                                        <h5 class="new" style="margin-left: 175px;background: darkmagenta;">sale</h5>
+                                        <h5 class="new bg-danger px-1" style="margin-left: 175px;">
+                                            {{this.discount.percent}}%OFF</h5>
+                                        {{/if}}
+                                        {{else}}
+                                        {{#if this.subCatDiscount.status}}
+                                        <h5 class="new bg-danger">sale</h5>
+                                        <h5 class="new px-1" style="margin-left: 175px;background: darkmagenta;">
+                                            {{this.subCatDiscount.percent}}%OFF</h5>
+                                        {{else}}
+                                        <h5 class="new">New</h5>
+                                        {{/if}}
+                                        {{/if}}
+                                    </div>
+                                    <div class="l_p_text">
+                                        <ul>
+                                            {{!-- <li class="p_icon"><a><i class="icon_piechart"></i></a></li> --}}
+                                            <li>
+                                                {{#ifCond this.stock 0}}
+                                                <button class="add_cart_btn bg-danger px-4">Out of Stock</button>
+                                                {{else}}
+                                                <button class="add_cart_btn px-4"
+                                                    onclick="addToCart('{{this._id}}')">Add To
+                                                    Cart</button>
+                                                {{/ifCond}}
+                                            </li>
+                                            {{#if this.inWishlist}}
+                                            <li id="{{this._id}}" class="p_icon"><a><i
+                                                        onclick="removeFromWishList('{{this._id}}')"
+                                                        class="text-danger icon_heart_alt"></i></a></li>
+                                            {{else}}
+                                            <li id="{{this._id}}" class="p_icon"><a><i
+                                                        onclick="addToWishList('{{this._id}}')"
+                                                        class="icon_heart_alt"></i></a></li>
+                                            {{/if}}
+                                        </ul>
+                                        <h4>{{this.name}}</h4>
+                                        {{#if this.discount.status}}
+                                        {{#if this.subCatDiscount.status}}
+                                        {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                                        <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                                        <a class="h5 text-danger"> ₹{{../this.subCatOfferPrice}}</a>
+                                        {{else}}
+                                        <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                                        <a class="h5 text-danger"> ₹{{../this.offerPrice}}</a>
+                                        {{/when}}
+                                        {{else}}
+                                        <del class="h5" style="color: rgb(155, 145, 145);">₹{{this.MRP}}</del>
+                                        <a class="h5 text-danger"> ₹{{this.offerPrice}}</a>
+                                        {{/if}}
+                                        {{else}}
+                                        {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                                        <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                                        <a class="h5 text-danger"> ₹{{../this.subCatOfferPrice}}</a>
+                                        {{else}}
+                                        <a class="h5">₹{{../this.MRP}}</a>
+                                        {{/when}}
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                        <nav aria-label="Page navigation example" class="pagination_area">
+                            <ul class="pagination">
+                                {{#each pageNum}}
+                                <li class="pagenumber page-item"><a class="page-link" style="border: none"
+                                        href="/shop/?page={{inc @index}}&limit=6">{{inc @index}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-3 float-md-right">
+                    <div class="categories_sidebar">
+                        <aside class="l_widgest l_p_categories_widget">
+                            <div class="l_w_title">
+                                <h3>Categories</h3>
+                            </div>
+                            <ul class="navbar-nav">
+                                {{#each categories}}
+                                <li class="nav-item dropdown row">
+                                    <a id="{{this._id}}" class="col-10 nav-link catid" style="cursor: pointer;"
+                                        href="/shopbycategory/?id={{this._id}}&page=1&limit=6">{{this.name}}</a>
+                                    <a class="nav-link dropdown-toggle col-2" href="" id="navbarDropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                        <i onclick="getSubCat('{{this._id}}')" class="icon_plus" aria-hidden="true"></i>
+                                        <i class="icon_minus-06" aria-hidden="true"></i>
+                                    </a>
+
+
+                                    <ul class="sublist dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                    </ul>
+                                </li>
+                                {{/each}}
+
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" style="margin-left: -15px;"
+                                        href="/shop/?page=1&limit=6">All
+                                        Categories
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+                        <aside class="l_widgest l_fillter_widget">
+                            <div class="l_w_title">
+                                <h3>Filter section</h3>
+                            </div>
+                            <div id="slider-range" class="ui_slider"></div>
+                            <label for="amount">Price:</label>
+                            <input type="text" id="amount" readonly>
+                        </aside>
+                        <aside class="l_widgest l_color_widget">
+                            <div class="l_w_title">
+                                <h3>Color</h3>
+                            </div>
+                            <ul>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                            </ul>
+                        </aside>
+                        <aside class="l_widgest l_menufacture_widget">
+                            <div class="l_w_title">
+                                <h3>Manufacturer</h3>
+                            </div>
+                            <ul>
+                                <li><a href="#">Nigel Cabourn.</a></li>
+                                <li><a href="#">Cacharel.</a></li>
+                                <li><a href="#">Calibre (Menswear)</a></li>
+                                <li><a href="#">Calvin Klein.</a></li>
+                                <li><a href="#">Camilla and Marc</a></li>
+                            </ul>
+                        </aside>
+                        <aside class="l_widgest l_feature_widget">
+                            <div class="l_w_title">
+                                <h3>Featured Products</h3>
+                            </div>
+                            <div class="media">
+                                <div class="d-flex">
+                                    <img src="/img/product/featured-product/f-p-5.jpg" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <h4>Jeans with <br /> Frayed Hems</h4>
+                                    <h5>$45.05</h5>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="d-flex">
+                                    <img src="/img/product/featured-product/f-p-6.jpg" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <h4>Crysp Denim<br />Montana</h4>
+                                    <h5>$45.05</h5>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Categories Product Area =================-->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+
+<script>
+    let length = document.getElementsByClassName('page-link').length
+    let pageNumId
+    //for (let i = 0; i < length; i++) {
+      //  document.getElementsByClassName('page-link')[i].
+    //}
+    // $(document).ready(function () {
+    //   alert(pageNumId)
+    //})
+
+    /*function pageNumSelect(pageNum) {
+        for (let i = 0; i < length; i++) {
+            document.getElementsByClassName('page-link')[i].
+        }
+    }*/
+
+    function pageNumActive(pageNum){
+        document.getElementsByClassName('page-link')[pageNum-1].style["border"]='1px solid black'
+    }
+
+
+    function addToCart(prodId) {
+        $.ajax({
+            url: '/add-to-cart/' + prodId,
+            method: 'get',
+            success: (response) => {
+                let count = $('#cart-count').html()
+                count = parseInt(count) + 1
+                $("#cart-count").html(count)
+            }
+        })
+    }
+
+    function addToWishList(prodId) {
+        $.ajax({
+            url: '/add-to-wishlist/' + prodId,
+            method: 'get',
+            success: (response) => {
+                let count = $('#wish-count').html()
+                count = parseInt(count) + 1
+                $("#wish-count").html(count)
+                document.getElementById(prodId).innerHTML = `<li id="${prodId}"
+                 class="p_icon"><a><i onclick="removeFromWishList('${prodId}')" 
+                 class="text-danger icon_heart_alt"></i></a></li>`
+            }
+        })
+    }
+
+    function removeFromWishList(prodId) {
+        $.ajax({
+            url: '/remove-from-wishlist/' + prodId,
+            method: 'get',
+            success: (response) => {
+                let count = $('#wish-count').html()
+                count = parseInt(count) - 1
+                $("#wish-count").html(count)
+                document.getElementById(prodId).innerHTML = `<li id="${prodId}"
+                 class="p_icon"><a><i onclick="addToWishList('${prodId}')" 
+                 class="icon_heart_alt"></i></a></li>`
+            }
+        })
+    }
+
+
+    function getSubCat(id) {
+        var subList = document.getElementsByClassName('sublist')
+        $.ajax({
+            url: '/get-sub-categories/' + id,
+            method: 'get',
+            success: (response) => {
+                let subs = response
+                let length = response.length
+                let Id = response[0]._id
+                let classLength = subList.length
+                console.log(subs)
+                console.log(length)
+                console.log(Id)
+                for (let j = 0; j < classLength; j++) {
+                    var rows = ``
+                    for (let i = 0; i < length; i++) {
+                        var row = `<li class="nav-item"><a style="cursor:pointer;" href="/shopbysubcategory/?id=${Id}&subCat=${subs[i].name}&page=1&limit=6" 
+                                class="nav-link" id="subcatplus">${subs[i].name}</a></li>`
+                        rows = rows + row
+                    }
+                    subList[j].innerHTML = rows
+                }
+
+            }
+        })
+    }
+
+
+
+</script>
+</body>

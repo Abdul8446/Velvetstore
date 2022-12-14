@@ -1,0 +1,70 @@
+<!--================Categories Banner Area =================-->
+<section class="solid_banner_area">
+    <div class="container">
+        <div class="solid_banner_inner">
+            <h3>otp LOgin</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="track.html">OTP Login</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--================End Categories Banner Area =================-->
+
+<!--================login Area =================-->
+<section class="login_area p_100">
+    <div class="container">
+        <div class="login_inner">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="login_title">
+
+                         {{!-- {{#if blockStatus}}
+                        <div class="alert alert-danger" role="alert">
+                            User Blocked
+                        </div>
+                        {{/if}}
+                        {{#if loginErr}}
+                        <div class="alert alert-danger" role="alert">
+                            Invalid User !!
+                        </div>
+                        {{else}} --}}
+                        <h2>log in with OTP</h2>
+                        <p>Enter your Phone number</p>
+                        {{#if mobileNotFoundErr}}
+                        <div class="alert alert-danger">Mobile number doesn't exist!!</label>
+                        {{/if}}
+                        {{#if userBlocked}}
+                        <label class="alert alert-danger">User Blocked!!</label>
+                        {{/if}}
+                        {{!-- {{/if}} --}}
+                    </div>
+                    <form class="login_form row" action="/send-code" method="post">
+                        <div class="col-lg-12 form-group">
+                            <input class="form-control" type="tel" name="phone" placeholder="Phone number">
+                        </div>
+                        {{!-- <div class="col-lg-12 form-group">
+                            <input class="form-control" type="password" name="password" placeholder="Password">
+                        </div>
+                        <div class="col-lg-12 form-group">
+                            <div class="creat_account">
+                                <input type="checkbox" id="f-option" name="selector">
+                                <label for="f-option">Keep me logged in</label>
+                                <div class="check"></div>
+                            </div>
+                            <h4>Forgot your password ?</h4>
+                        </div>
+                        <div class="col-lg-12 form-group">
+                            <a href="/signup">Dont have an account? Sign up</a>
+                        </div> --}}
+                        <div class="col-lg-12 form-group">
+                            <button type="submit" class="btn update_btn form-control">Send OTP</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End login Area =================-->

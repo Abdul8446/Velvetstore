@@ -1,0 +1,120 @@
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            {{!-- -------------start content----------- --}}
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Add Category</h4>
+                        <form id="categoryform" name="categoryForm" onsubmit="return validateCategory()"
+                            action="/admin/add-category" method="post">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input id="catinput" onkeyup="catDuplicateCheck()" type="text" name="name"
+                                    class="form-control" placeholder="Name">
+                                <label id="catvalidate" class="text-danger mt-1"></label>
+                                <div>
+                                    <button id="submit-btn" type="submit" class="btn btn-primary mr-2">Submit</button>
+                                </div>
+                            </div>
+                            {{!-- <button class="btn btn-dark">Cancel</button> --}}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{!-- ------------------end content---------------- --}}
+            {{!-- -------------start content----------- --}}
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Add Sub-Category</h4>
+                        <form name="subcatform" action="/admin/add-sub-category" method="post" onsubmit="return validateSubCategory()">
+                            {{#each categories}}
+                            <div class="form-group">
+                                <input type="radio" name="categoryId" value="{{this._id}}" required>
+                                <label>{{this.name}}</label>
+                            </div>
+                            {{/each}}
+
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input onkeyup="subCatDuplicateCheck()" type="text" name="name" class="form-control" placeholder="Name">
+                                <label id="subcatvalidate" class="text-danger mt-1"></label>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            {{!-- <button class="btn btn-dark">Cancel</button> --}}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{!-- ------------------end content---------------- --}}
+        </div>
+    </div>
+</div>
+
+<script>
+    function catDuplicateCheck() {
+        let x = document.forms["categoryForm"]["name"].value;
+        let error = document.getElementById('catvalidate')
+        error.innerHTML = ``
+        $.ajax({
+            url: '/admin/check-duplicate-category',
+            method: 'post',
+            data: {
+                catName: x
+            },
+            success: (response) => {
+                if (response.duplicate) {
+                    error.innerHTML = 'Category already exist'
+                }else if(response.notDuplicate){
+                    error.innerHTML = ''
+                }
+            }
+        })
+    }
+
+    function subCatDuplicateCheck() {
+        let catId=document.forms["subcatform"]["categoryId"].value;
+        let x = document.forms["subcatform"]["name"].value;
+        let error = document.getElementById('subcatvalidate')
+        error.innerHTML = ``
+        $.ajax({
+            url: '/admin/check-duplicate-sub-category',
+            method: 'post',
+            data: {
+                subCatName: x,
+                catId:catId
+            },
+            success: (response) => {
+                if (response.duplicate) {
+                    error.innerHTML = 'Category already exist'
+                }else if(response.notDuplicate){
+                    error.innerHTML = ''
+                }
+            }
+        })
+    }
+
+    function validateCategory() {
+        let x = document.forms["categoryForm"]["name"].value;
+        if (x == "") {
+            document.getElementById('catvalidate').innerHTML = 'Name must be filled out'
+            return false;
+        } else if (x.trim() == "") {
+            document.getElementById('catvalidate').innerHTML = 'Name must not be only spaces'
+            return false;
+        }
+    }
+
+
+    function validateSubCategory() {
+        let x = document.forms["subcatform"]["name"].value;
+        if (x == "") {
+            document.getElementById('subcatvalidate').innerHTML = 'Name must be filled out'
+            return false;
+        } else if (x.trim() == "") {
+            document.getElementById('subcatvalidate').innerHTML = 'Name must not be only spaces'
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,93 @@
+<!--================Categories Banner Area =================-->
+<section class="solid_banner_area">
+    <div class="container">
+        <div class="solid_banner_inner">
+            <h3>OTP Verification</h3>
+            {{!-- <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="track.html">OTP Login</a></li>
+            </ul> --}}
+        </div>
+    </div>
+</section>
+<!--================End Categories Banner Area =================-->
+
+<!--================login Area =================-->
+<section class="login_area p_100">
+    <div class="container">
+        <div class="login_inner">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="login_title">
+                        <h2>OTP Verification</h2>
+                        <p>Enter OTP number</p>
+                    </div>
+                    {{#if invalidOtp}}
+                    <div class="alert alert-danger">Invalid OTP!!</div>
+                    {{/if}}
+                    <form class="login_form row" action="/verify-otp" method="post">
+                        <div class="col-lg-12 form-group">
+                            <input class="form-control" type="text" name="otp" placeholder="Enter OTP here">
+                        </div>
+                        <div class="col-lg-12 form-group">
+                            <button type="submit" value="submit" class="btn update_btn form-control">Verify</button>
+                        </div>
+                    </form>
+                    <form class="login_form row" action="/send-code" method="post">
+                        <input type="hidden" value="{{defaultInput}}" name="phone">
+                        <div class="col-lg-12 form-group">
+                            Expires in:
+                            <span id="timer"></span>
+
+                            <span> seconds</span>
+                            <button id="resendotp"
+                                class="text-decoration-none text-muted font-weight-bold float-right border-0 bg-white"
+                                type="submit" disabled>Resend
+                                Otp</button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<!--================End login Area =================-->
+<script>
+    let timerOn = true;
+
+    function timer(remaining) {
+        var m = Math.floor(remaining / 60);
+        var s = remaining % 60;
+
+        m = m < 10 ? '0' + m : m;
+        s = s < 10 ? '0' + s : s;
+        document.getElementById('timer').innerHTML = m + ':' + s;
+        remaining -= 1;
+
+        if (remaining >= 0 && timerOn) {
+            setTimeout(function () {
+                timer(remaining);
+            }, 1000);
+            return;
+        }
+
+        if (!timerOn) {
+            // Do validate stuff here
+            return;
+        }
+
+        // Do timeout stuff here
+        document.getElementById('resendotp').classList.remove('text-muted');
+        document.getElementById('resendotp').classList.add('text-dark');
+        document.getElementById('resendotp').removeAttribute('disabled')
+
+    }
+
+    timer(60);
+
+</script>

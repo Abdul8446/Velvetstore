@@ -1,0 +1,102 @@
+<!--================Categories Banner Area =================-->
+<section class="solid_banner_area">
+    <div class="container">
+        <div class="solid_banner_inner">
+            <h3>Sign up</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="track.html">Sign up</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--================End Categories Banner Area =================-->
+
+<!--================login Area =================-->
+<section class="login_area p_100">
+    <div class="container">
+        <div class="login_inner">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="login_title">
+                        <h2>create account</h2>
+                        <p>Follow the steps below to create email account enjoy the great mail.com emailing
+                            experience. Vivamus tempus risus vel felis condimentum, non vehicula est iaculis.</p>
+                    </div>
+                        {{#if emailError}}
+                        <label class="alert alert-danger col-lg-12">Email already exist!!</label>
+                        {{/if}}
+                        {{#if phoneError}}
+                        <label class="alert alert-danger col-lg-12">Phone number already exist!!</label>
+                        {{/if}}
+                    <form name="signupForm" class="login_form row" action="/signup" method="post" onsubmit="return validateSignup()">
+                        <div class="col-lg-6 form-group">
+                            <input class="form-control" type="text" name="username" placeholder="User Name">
+                            <label class="text-danger" id="namevalidate"></label>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <input class="form-control" type="email" name="email" placeholder="Email" onkeyup="emailValidate()">
+                            <label class="text-danger" id="emailvalidate"></label>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <input class="form-control" type="tel" name="phone" placeholder="Phone">
+                            <label class="text-danger" id="phonevalidate"></label>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <input class="form-control" type="text" name="referral" placeholder="Use referral code(optional)">
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <input class="form-control" type="password" name="password" placeholder="Password">
+                            <label class="text-danger" id="passwordvalidate"></label>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <input class="form-control" type="password" name="repassword" placeholder="Re-Password">
+                            <label class="text-danger" id="repasswordvalidate"></label>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <button type="submit" value="submit" class="btn subs_btn form-control">register now</button>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <a href="/login">Already have an account? Login</a>
+                        </div>
+                      
+                    
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End login Area =================-->
+
+
+<script>
+    function validateSignup() {
+        let name = document.forms["signupForm"]["username"].value;
+        let phone =document.forms["signupForm"]["phone"].value;
+        let password=document.forms["signupForm"]["password"].value;
+        let repassword=document.forms["signupForm"]["repassword"].value;
+        if (name == "") {
+            document.getElementById('namevalidate').innerHTML = 'Name must be filled out'
+            return false;
+        } else if (name.trim() == "") {
+            document.getElementById('namevalidate').innerHTML = 'Name must not be only spaces'
+            return false;
+        }else if(name.length<4){
+            document.getElementById('namevalidate').innerHTML = 'Name must be atleast 4 characters'
+            return false;
+        }else if(!phone.match(/^[0-9]{10}$/)){
+            document.getElementById('phonevalidate').innerHTML = 'Enter a valid 10 digit phone number'
+            return false;
+        }else if(password.length<4){
+            document.getElementById('passwordvalidate').innerHTML = 'Password length must be atleast 4'
+            return false;
+        }else if(password!=repassword){
+            document.getElementById('repasswordvalidate').innerHTML = 'Passwords not matching'
+            return false;
+        }
+    }
+
+
+</script>

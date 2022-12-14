@@ -1,0 +1,72 @@
+
+
+<div class="container">
+    <div class="grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Order Details</h4>
+               
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>sl.no</th>
+                                <th>Date</th>
+                                <th>Address</th>
+                                <th>Zip Code</th>
+                                <th>Phone No.</th>
+                                <th>Total Amount</th>
+                                <th>Payment Method</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orderList}}
+                            <tr>
+                                <td>{{inc @index}}</td>
+                                <td>{{this.date}}</td>
+                                <td>{{this.address.name}}</td>
+                                <td>{{this.address.zip}}</td>
+                                <td>{{this.address.phone}}</td>
+                                <td>{{this.totalAmount}}</td>
+                                <td>{{this.paymentMethod}}</td>
+                                {{#ifCond this.status 'cancelled'}}
+                                <td class="text-danger">{{this.status}}</td>
+                                 <td><a href="/reorder/{{this._id}}"><label class="btn btn-outline-warning btn-sm rounded-0">Reorder</label></a></td>
+                                {{/ifCond}}
+                                {{#ifCond this.status 'placed'}}
+                                <td class="text-success">{{this.status}}</td>
+                                <td><a href="/cancel-order/{{this._id}}"><label class="btn btn-outline-danger btn-sm rounded-0">Cancel</label></a></td>
+                                {{/ifCond}}
+                                {{#ifCond this.status 'shipped'}}
+                                <td class="text-secondary">{{this.status}}</td>
+                                <td></td>
+                                {{/ifCond}}
+                                {{#ifCond this.status 'out for delivery'}}
+                                <td class="text-secondary">{{this.status}}</td>
+                                <td></td>
+                                {{/ifCond}}
+                                {{#ifCond this.status 'delivered'}}
+                                <td>{{this.status}}</td>
+                                <td><a href="/return/{{this._id}}"><label class="btn btn-outline-success btn-sm rounded-0">Return</label></a></td>
+                                {{/ifCond}}
+                                {{#ifCond this.status 'return approval pending'}}
+                                <td class="text-warning">{{this.status}}</td>
+                                <td></td>
+                                {{/ifCond}}
+                                {{#ifCond this.status 'returned'}}
+                                <td class="text-secondary">{{this.status}}</td>
+                                <td></td>
+                                {{/ifCond}}
+                                
+                                <td><a href="/view-order-products/{{this._id}}"><label class="btn btn-outline-info btn-sm rounded-circle">→</label></a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

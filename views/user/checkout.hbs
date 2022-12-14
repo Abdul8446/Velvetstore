@@ -1,0 +1,345 @@
+<section class="shopping_cart_area p_100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+            </div>
+            <div class="col-lg-4 cart-discount mb-5">
+                <h6 class="text-success"><span id="couponapplied"></span> </h6>
+                <form id="coupon-form">
+                    <div class="input-group">
+                        {{#if discountedPrice}}
+                        <input type="text" name="coupon" class="form-control" readonly placeholder="{{couponname}}">
+                        {{else}}
+                        <input type="text" name="coupon" class="form-control" required placeholder="coupon code">
+                        {{/if}}
+                        <div class="input-group-append" id="removebtn">
+                            {{#if discountedPrice}}
+                            <a href="/remove-coupon/{{couponname}}" class="btn btn-danger ">Remove
+                                coupon</a>
+                            {{else}}
+                            <button class="btn btn-outline-dark text-white bg-dark" type="submit">→</button>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <h5 id="coupn-err" class="text-danger"></h5>
+                    {{#if discountedPrice}}
+                    <h6 class="text-success">Coupon has been successfully Applied! </h6>
+                    {{/if}}
+                </form>
+            </div>
+        </div>
+        <form class="row" id="checkout-form">
+            <div class="calculate_shoping_area col-lg-8">
+                <h3 class="cart_single_title">Shipping Address</h3>
+                <div class="calculate_shop_inner">
+                    <div class="calculate_shoping_form row">
+
+                        {{#each address}}
+                        <div class="col-12">
+                            <input type="radio" name="address" value="{{this._id}}" required>
+                            <label class="col-6 border rounded p-1">
+                                <h5>{{this.name}}</h5>
+                                {{this.fullAddress}},<br>
+                                {{this.zip}},Ph:{{this.phone}}<br>
+                                Email:{{this.email}}
+                            </label>
+                        </div>
+                        {{/each}}
+                        <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+
+                        <div class="col-lg-6 mt-5">
+                            <button type="button" class="btn subs_btn form-control" data-toggle="modal"
+                                data-target="#exampleModalCenter">
+                                Add New Address
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart_totals_area">
+                    <h4>Cart Totals</h4>
+                    <div class="cart_t_list">
+                        <div class="media">
+                            <div class="d-flex">
+                                <h5>Subtotal</h5>
+                            </div>
+                            <div class="media-body">
+                                <h6>₹{{subtotal}}</h6>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="d-flex">
+                                <h5>Shipping</h5>
+                            </div>
+                            <div class="media-body">
+                                <p>Free Shipping</p>
+                            </div>
+                        </div>
+                        <div class="media">
+                            <div class="d-flex">
+
+                            </div>
+                        </div>
+                    </div>
+                    <table class="mb-3">
+                        <tr class="summary-total">
+                            {{#if discountedPrice}}
+                            <td class="amount fw-bold text-success">Coupon : {{couponname}}</td>
+                            {{else}}
+                            <td id="couponname" class="amount fw-bold text-success">{{couponname}}</td>
+                            {{/if}}
+                        </tr>
+                        <tr class="summary-total">
+                            <td>DiscountAmount:</td>
+                            {{#if discountedPrice}}
+                            <td><span id="discountgot">{{discountedPrice}}/-OFF</span> </td>
+                            <input type="number" name="couponDiscount" value="{{discountedPrice}}" hidden>
+                            {{else}}
+                            <td><span id="discountgot">No coupon applied</span> </td>
+                            {{/if}}
+                        </tr>
+                    </table>
+                    <div class="total_amount row m0 row_disable">
+                        <div class="float-left">
+                            Total
+                        </div>
+                        <div class="float-right">
+                            ₹<span id="totalValue">{{finalAmount}}</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <input type="radio" name="payment-method" value="COD" required>
+                        <label for="">&nbsp;Cash on delivery</label>
+                    </div>
+                    <div class="mt-4">
+                        <input type="radio" name="payment-method" value="ONLINE" required>
+                        <label for="">&nbsp;Online payment</label>
+                    </div>
+                    <div class="mt-4">
+                        <input type="radio" name="payment-method" value="PAYPAL" required>
+                        <label for="">&nbsp;Paypal</label>
+                    </div>
+                </div>
+                <button type="submit" value="submit" class="btn subs_btn form-control">
+                    Place Order</button>
+            </div>
+        </form>
+
+</section>
+
+
+<!---======================modal==========================-->
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Address Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/add-address" method="post">
+                <div class="modal-body">
+
+                    <div class="calculate_shop_inner">
+                        <div class="calculate_shoping_form row">
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="firstname" name="firstname"
+                                    placeholder="First Name">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="lastname" name="lastname"
+                                    placeholder="Last Name">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input class="selectpicker col-lg-12" type="text" name="country" value="India"
+                                    id="country" readonly>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input type="text" class="form-control" id="street" name="street"
+                                    placeholder="Street Address">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="town" name="town" placeholder="Town / City">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="state" name="state" placeholder="State">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="zip" name="zip"
+                                    placeholder="Postcode / Zip">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone No.">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Address</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!---======================modal==========================-->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    $('#checkout-form').submit((event) => {
+        event.preventDefault()
+        $.ajax({
+            url: '/place-order',
+            method: 'post',
+            data: $('#checkout-form').serialize(),
+            success: (response) => {
+                if (response.codSuccess) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Order Placed Successfully',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Continue Shopping'
+                    }).then((result) => {
+                        if (result.value) {
+                            window.location.href = `/shop/?page=1&limit=6`
+                        }
+                    });
+                } else if (response.paypal) {
+                    location.href = '/paypal-pay/' + response.orderId
+                } else {
+                    razorpayPayment(response)
+                }
+            }
+        })
+    })
+
+    function razorpayPayment(order) {
+        var options = {
+            "key": "rzp_test_tz4E3kt3VHHhmt", // Enter the Key ID generated from the Dashboard
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Velvetstore",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+            "handler": function (response) {
+                verifyPayment(response, order)
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    }
+
+    function verifyPayment(payment, order) {
+        $.ajax({
+            url: '/verify-payment',
+            data: {
+                payment,
+                order
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Order Placed Successfully',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Continue Shopping'
+                    }).then((result) => {
+                        if (result.value) {
+                            window.location.href = `/shop/?page=1&limit=6`
+                        }
+                    });
+                } else {
+                    alert('order not placed')
+                }
+            }
+        })
+    }
+
+</script>
+
+<script>
+    $('#coupon-form').submit((e) => {
+        e.preventDefault()
+
+        $.ajax({
+            url: '/couponSubmit',
+            method: 'post',
+            data: $('#coupon-form').serialize(),
+            success: (response) => {
+                var err = document.getElementById('coupn-err')
+                if (response.invalid) {
+                    err.innerHTML = "Enter a valid Coupon!"
+                } else if (response.dateExpired) {
+                    err.innerHTML = "Coupon has expired "
+                } else if (response.used) {
+                    err.innerHTML = "You have already used this coupon!"
+                } else {
+                    err.innerHTML = "<h6 style='color:green'> Coupon has been successfully Applied! </h6>"
+
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Coupon has been successfully Applied!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(()=>{
+                        location.reload()
+                    })
+
+
+                    console.log(response.a)
+                    console.log(response.a.coupon)
+                    response.finalAmount = parseInt(response.finalAmount)
+                    response.discountedprice = parseInt(response.discountedprice)
+                    document.getElementById('couponname').innerHTML = 'Coupon : ' + response.a.coupon
+                    document.getElementById('discountgot').innerHTML = '₹' + response.discountedprice + '/-OFF'
+
+
+                    document.getElementById('grandtotal').innerHTML = "₹" + response.finalAmount
+
+                    console.log(response.finalAmount)
+                    document.getElementById('couponId').innerHTML = response.a + "%"
+                    document.getElementById('coupnRw').style = "display:block !important "
+                    let subtotal = document.getElementById('total').innerHTML
+                    console.log(subtotal)
+                    document.getElementById('discountgot').innerHTML = '₹' + (subtotal - response.finalAmount)
+                    console.log(response.a.coupon)
+                }
+            }
+
+        })
+    })
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

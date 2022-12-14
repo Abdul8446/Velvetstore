@@ -1,0 +1,71 @@
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            {{!-- -------------start content----------- --}}
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Edit Products</h4>
+                        <form action="/admin/edit-product/{{product._id}}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="Name"
+                                    value="{{product.name}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" name="description" rows="4" placeholder="Description"
+                                    value="" required>{{product.description}}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="number" name="price" class="form-control" value="{{product.MRP}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <div class="form-group">
+                                    <span>
+                                        <img src="/images/product/{{product.img.[0]}}" style="height: 70px;width: 70px;"
+                                            alt="no img" id="imgView1" onerror="this.style.display='none'">
+                                        <img src="/images/product/{{product.img.[1]}}" style="height: 70px;width: 70px;"
+                                            alt="no img" id="imgView2" onerror="this.style.display='none'">
+                                        <img src="/images/product/{{product.img.[2]}}" style="height: 70px;width: 70px;"
+                                            alt="no img" id="imgView3" onerror="this.style.display='none'">
+                                        <img src="/images/product/{{product.img.[3]}}" style="height: 70px;width: 70px;"
+                                            alt="no img" id="imgView4" onerror="this.style.display='none'">
+                
+                                    </span>
+                                </div>
+                                <input type="file" class="form-control" name="image" multiple
+                                 onchange="viewImage(event)">
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            {{!-- <button class="btn btn-dark">Cancel</button> --}}
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {{!-- ------------------end content---------------- --}}
+        </div>
+    </div>
+</div>
+
+<script>
+    function viewImage() {
+        document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[1])
+        document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[2])
+        document.getElementById('imgView4').src = URL.createObjectURL(event.target.files[3])
+        document.getElementById('imgView5').src = URL.createObjectURL(event.target.files[4])
+        document.getElementById('imgView6').src = URL.createObjectURL(event.target.files[5])
+        document.getElementById('imgView7').src = URL.createObjectURL(event.target.files[6])
+        document.getElementById('imgView8').src = URL.createObjectURL(event.target.files[7])
+    }
+    document.addEventListener('click', function (e) {
+        if (e.target.tagName === 'IMG') {
+            e.target.remove();
+        }
+    });
+
+</script>

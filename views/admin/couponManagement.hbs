@@ -1,0 +1,69 @@
+<!-- Form Start -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-5 grid-margin stretch-card h-50">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="mb-4">Add Coupon</h3>
+                        <form action="/admin/addcoupon" method="post">
+                            <div class="mb-3">
+                                <h6>Coupon Code</h6>
+                                <input type="text" name="coupon" class="form-control" placeholder="Enter Coupon code"
+                                    required="">
+                            </div>
+                            <div class="mb-3">
+                                <h6>Discount</h6>
+                                <input type="number" name="discount" class="form-control" placeholder="Enter Discount"
+                                    required="">
+                            </div>
+                            <div class="mb-3">
+                                <h6>Expiry Date</h6>
+                                <input type="date" class="form-control" name="date">
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>All coupons</h2>
+                        <table class="table table-hover" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Coupon Code</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">Expiry Date</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each coupons}}
+                                <tr>
+                                    <td>{{inc @index}}</td>
+                                    <td class="tm-product-name">{{this.coupon}}</td>
+                                    <td>{{this.discount}}</td>
+                                    <td>{{this.date}}</td>
+                                    <td>
+                                        <a href="/admin/delete-coupon/{{this._id}}"
+                                            class="btn btn-outline-danger text-uppercase">
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Form End -->

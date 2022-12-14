@@ -1,0 +1,137 @@
+{{#if wishCount}}
+<div class="categories_product_area container">
+    <div id="productscontainer" class="row">
+        {{#each products}}
+        <div id="{{this.productId}}" class="col-lg-3 col-sm-6">
+            <div class="l_product_item">
+                <div class="l_p_img">
+                    <a href="/product-details/{{this._id}}"><img style="height: 318px;width: 269px;"
+                            src="/images/product/{{this.img.[0]}}" alt=""></a>
+                    <h5 class="new">New</h5>
+                    {{#if this.discount.status}}
+                    {{#if this.subCatDiscount.status}}
+                    {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                    <h5 class="new bg-danger">sale</h5>
+                    <h5 class="new px-1" style="margin-top: 30px;background: darkmagenta;">
+                        {{../this.subCatDiscount.percent}}%OFF</h5>
+                    {{else}}
+                    <h5 class="new" style="background: rgb(9, 175, 106);">sale</h5>
+                    <h5 class="new bg-danger px-1" style="margin-top: 30px;">
+                        {{../this.discount.percent}}%OFF</h5>
+                    {{/when}}
+                    {{else}}
+                    <h5 class="new" style="background: rgb(9, 175, 106);">sale</h5>
+                    <h5 class="new bg-danger px-1" style="margin-top: 30px;">
+                        {{this.discount.percent}}%OFF</h5>
+                    {{/if}}
+                    {{else}}
+                    {{#if this.subCatDiscount.status}}
+                    <h5 class="new bg-danger">sale</h5>
+                    <h5 class="new px-1" style="margin-top: 30px;background: darkmagenta;">
+                        {{this.subCatDiscount.percent}}%OFF</h5>
+                    {{else}}
+                    <h5 class="new">New</h5>
+                    {{/if}}
+                    {{/if}}
+                    <h5 onclick="removeFromWishList('{{this.productId}}')" class="text-white bg-dark px-1"
+                        style="position: absolute;right: 18px;top: 18px;cursor: pointer;">X</h5>
+                </div>
+                <div class="l_p_text">
+                    <ul>
+                        <li>
+                            {{!-- <button class="add_cart_btn px-5" style="" onclick="addToCart('{{this.productId}}')">Add To
+                                Cart</button> --}}
+                            {{#ifCond this.stock 0}}
+                            <button class="add_cart_btn bg-danger px-5">Out of Stock</button>
+                            {{else}}
+                            <button class="add_cart_btn px-5" onclick="addToCart('{{this.productId}}')">Add To
+                                Cart</button>
+                            {{/ifCond}}
+                        </li>
+                    </ul>
+                    <h4>{{this.name}}</h4>
+                    {{#if this.discount.status}}
+                    {{#if this.subCatDiscount.status}}
+                    {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                    <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                    <a class="h5 text-danger"> ₹{{../this.subCatOfferPrice}}</a>
+                    {{else}}
+                    <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                    <a class="h5 text-danger"> ₹{{../this.offerPrice}}</a>
+                    {{/when}}
+                    {{else}}
+                    <del class="h5" style="color: rgb(155, 145, 145);">₹{{this.MRP}}</del>
+                    <a class="h5 text-danger"> ₹{{this.offerPrice}}</a>
+                    {{/if}}
+                    {{else}}
+                    {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                    <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                    <a class="h5 text-danger"> ₹{{../this.subCatOfferPrice}}</a>
+                    {{else}}
+                    <a class="h5">₹{{../this.MRP}}</a>
+                    {{/when}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{else}}
+<!--================Categories Banner Area =================-->
+<section class="solid_banner_area">
+    <div class="container">
+        <div class="solid_banner_inner">
+            <h3>Wishlist Empty</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a>empty wishlist</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--================End Categories Banner Area =================-->
+
+<!--================login Area =================-->
+<section class="emty_cart_area p_100">
+    <div class="container">
+        <div class="emty_cart_inner">
+            <i class="icon-heart icons"></i>
+            <h3>Your Cart is Empty</h3>
+            <h4>back to <a href="#">shopping</a></h4>
+        </div>
+    </div>
+</section>
+<!--================End login Area =================-->
+{{/if}}
+
+<script>
+    function removeFromWishList(prodId) {
+        $.ajax({
+            url: '/remove-from-wishlist/' + prodId,
+            method: 'get',
+            success: (response) => {
+                let count = $('#wish-count').html()
+                count = parseInt(count) - 1
+                $("#wish-count").html(count)
+                document.getElementById(prodId).innerHTML = ``
+                location.reload()
+                if (count == 0) {
+                    location.reload()
+                }
+            }
+        })
+    }
+
+    function addToCart(prodId) {
+        $.ajax({
+            url: '/add-to-cart/' + prodId,
+            method: 'get',
+            success: (response) => {
+                let count = $('#cart-count').html()
+                count = parseInt(count) + 1
+                $("#cart-count").html(count)
+            }
+        })
+    }
+</script>

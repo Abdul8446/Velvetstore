@@ -1,0 +1,156 @@
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-body py-0 px-0 px-sm-3">
+                    <div class="row align-items-center">
+
+                        <section class="col-12 content-main">
+                            <div class="content-header">
+                                <div>
+                                    <h2 class="content-title card-title">Order List </h2>
+                                </div>
+                                {{!-- <div>
+                                    <input type="text" placeholder="Search order ID" class="form-control bg-white">
+                                </div> --}}
+                            </div>
+                            <div class="card mb-4">
+                                <header class="card-header">
+                                    <div class="row gx-3">
+                                        <div class="col-lg-4 col-md-6 me-auto">
+                                            <input type="text" placeholder="Search..." class="form-control">
+                                        </div>
+                                        {{!-- <div class="col-lg-2 col-6 col-md-3">
+                                            <select class="form-select">
+                                                <option>Status</option>
+                                                <option>Active</option>
+                                                <option>Disabled</option>
+                                                <option>Show all</option>
+                                            </select>
+                                        </div> --}}
+                                        <div class="col-lg-2 col-6 col-md-3">
+                                            <select class="form-select">
+                                                <option>Show 20</option>
+                                                <option>Show 30</option>
+                                                <option>Show 40</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </header> <!-- card-header end// -->
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order Id</th>
+                                                    <th scope="col">Purchase<br> Date</th>
+                                                    <th scope="col">Customer<br> Name</th>
+                                                    <th scope="col">Total<br> Amount</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Payment<br> Method</th>
+                                                    <th scope="col">Change<br> Status</th>
+                                                    {{!-- <th scope="col" class="text-end">More Details</th> --}}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each orders}}
+                                                <tr>
+                                                    <td>{{this._id}}</td>
+                                                    <td>{{this.date}}</td>
+                                                    <td><b>{{this.username}}</b></td>
+                                                    <td>{{this.totalAmount}}</td>
+                                                    {{#ifCond this.status 'placed'}}
+                                                    <td><span class="badge rounded-pill alert-success">{{this.status}}</span></td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'shipped'}}
+                                                    <td><span class="badge rounded-pill alert-secondary">{{this.status}}</span></td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'out for delivery'}}
+                                                    <td><span class="badge rounded-pill alert-secondary">{{this.status}}</span></td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'cancelled'}}
+                                                    <td><span class="badge rounded-pill alert-danger">{{this.status}}</span></td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'delivered'}}
+                                                    <td><span class="badge rounded-pill alert-info">{{this.status}}</span></td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'return approval pending'}}
+                                                    <td><span class="badge rounded-pill alert-warning">{{this.status}}</span></td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'returned'}}
+                                                    <td><span class="badge rounded-pill alert-secondary">{{this.status}}</span></td>
+                                                    {{/ifCond}}
+                                                    <td>{{this.paymentMethod}}</td>
+                                                    {{#ifCond this.status 'placed'}}
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a href="#" data-bs-toggle="dropdown"
+                                                                class="btn btn-light rounded btn-sm font-sm">Update</a>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item text-white" href="/admin/order-delivered/{{this._id}}">Delivered</a>
+                                                                <a class="dropdown-item text-white" href="/admin/order-shipped/{{this._id}}">Shipped</a>
+                                                                <a class="dropdown-item text-white" href="/admin/order-out-for-delivery/{{this._id}}">Out for delivery</a>
+                                                                {{!-- <a class="dropdown-item text-white" href="/admin/order-approve-return/{{this._id}}">Approve return</a> --}}
+                                                            </div>
+                                                        </div> <!-- dropdown //end -->
+                                                    </td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'shipped'}}
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a href="#" data-bs-toggle="dropdown"
+                                                                class="btn btn-light rounded btn-sm font-sm">Update</a>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item text-white" href="/admin/order-out-for-delivery/{{this._id}}">Out for delivery</a>
+                                                            </div>
+                                                        </div> <!-- dropdown //end -->
+                                                    </td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'out for delivery'}}
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a href="#" data-bs-toggle="dropdown"
+                                                                class="btn btn-light rounded btn-sm font-sm">Update</a>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item text-white" href="/admin/order-delivered/{{this._id}}">Delivered</a>
+                                                            </div>
+                                                        </div> <!-- dropdown //end -->
+                                                    </td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'return approval pending'}}
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a href="#" data-bs-toggle="dropdown"
+                                                                class="btn btn-light rounded btn-sm font-sm">Update</a>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item text-white" href="/admin/order-approve-return/{{this._id}}">Approve return</a>
+                                                            </div>
+                                                        </div> <!-- dropdown //end -->
+                                                    </td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'delivered'}}
+                                                    <td></td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'cancelled'}}
+                                                    <td></td>
+                                                    {{/ifCond}}
+                                                    {{#ifCond this.status 'returned'}}
+                                                    <td></td>
+                                                    {{/ifCond}}
+                                                    <td><a href="/admin/order-details/{{this._id}}"><label class="text-info fa-sharp fa-solid fa-eye"></label></a></td>
+                                                </tr>
+                                                {{/each}}
+
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- table-responsive //end -->
+                                </div> <!-- card-body end// -->
+                            </div> <!-- card end// -->
+                          
+                        </section> <!-- content-main end// -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

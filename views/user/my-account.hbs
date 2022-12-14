@@ -1,0 +1,470 @@
+<!--================Categories Banner Area =================-->
+<section class="solid_banner_area">
+    <div class="container">
+        <div class="solid_banner_inner">
+            <h3>My Profile</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li>Profile</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--================End Categories Banner Area =================-->
+
+
+<div class="page-wrapper mb-5 mt-5">
+
+
+    <main class="main">
+        {{!-- <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+        <hr> --}}
+        <div class="page-content">
+            <div class="dashboard">
+                <div class="container">
+                    <div class="row">
+                        <aside class="col-md-4 col-lg-3">
+                            <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" style="font-size: 15px;"
+                                role="tablist">
+                                <li class="nav-item p-1 active bg-light"
+                                    style="border-bottom: 1px solid rgb(226, 223, 223);">
+                                    <a class="sidelink nav-link" style="color: #445f84;" id="tab-dashboard-link"
+                                        data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
+                                        aria-selected="true">Profile</a>
+                                </li>
+                                <li class="nav-item p-1" style="border-bottom: 1px solid rgb(226, 223, 223);">
+                                    <a class="sidelink nav-link" style="color: #445f84;" id="tab-orders-link"
+                                        data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders"
+                                        aria-selected="false"><span class="arrow"></span> Orders</a>
+                                </li>
+                                {{!-- <li class="nav-item p-1" style="border-bottom: 1px solid rgb(226, 223, 223);">
+                                    <a class="nav-link" style="color: #445f84;" id="tab-downloads-link"
+                                        data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads"
+                                        aria-selected="false">Downloads</a>
+                                </li> --}}
+                                <li class="nav-item p-1" style="border-bottom: 1px solid rgb(226, 223, 223);">
+                                    <a class="nav-link" style="color: #445f84;" id="tab-address-link" data-toggle="tab"
+                                        href="#tab-address" role="tab" aria-controls="tab-address"
+                                        aria-selected="false">Adresses</a>
+                                </li>
+                                <li class="nav-item p-1" style="border-bottom: 1px solid rgb(226, 223, 223);">
+                                    <a class="nav-link" style="color: #445f84;" id="tab-account-link" data-toggle="tab"
+                                        href="#tab-account" role="tab" aria-controls="tab-account"
+                                        aria-selected="false">Account Details</a>
+                                </li>
+                                <li class="nav-item p-1" style="border-bottom: 1px solid rgb(226, 223, 223);">
+                                    <a class="nav-link" style="color: #445f84;" href="/logout">Sign Out</a>
+                                </li>
+                            </ul>
+                        </aside><!-- End .col-lg-3 -->
+
+                        <div class="col-md-8 col-lg-9">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel"
+                                    aria-labelledby="tab-dashboard-link">
+                                    <p>Hello <span class="font-weight-normal text-dark">{{user.username}}</span> (not
+                                        <span class="font-weight-normal text-dark">{{user.username}}</span>? <a
+                                            href="#">Log out</a>)
+                                        <br>
+                                        From your account dashboard you can view your <a href="#tab-orders"
+                                            class="tab-trigger-link link-underline">recent orders</a>, manage your <a
+                                            href="#tab-address" class="tab-trigger-link">shipping and billing
+                                            addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your
+                                            password and account details</a>.
+                                    </p>
+                                    <h1 class="p-2">My profile</h1>
+                                    <h5 class="p-2">Profile Details</h5>
+                                    <h6 class="p-2">Username:<span class="ml-5 text-secondary">{{user.username}}</span>
+                                    </h6>
+                                    <h6 class="p-2">Email:<span class="ml-5 text-secondary">{{user.email}}</span> </h6>
+                                    <h6 class="p-2">Mobile number:<span
+                                            class="ml-5 text-secondary">{{user.phone}}</span>
+                                    </h6>
+                                    <a href="/edit-profile/{{user._id}}" class="btn btn-dark mt-3 rounded-0">Edit
+                                        Profile</a>
+                                    <a class="btn btn-danger text-white mt-3 rounded-0" data-toggle="modal"
+                                        data-target="#changePassword">Change Password</a><br>
+                                    {{#if passwordChangeSuccess}}    
+                                    <label class="text-success h5 mt-2">Password Changed Successfully!!</label>
+                                    {{/if}}
+                                </div><!-- .End .tab-pane -->
+
+                                <div class="tab-pane fade" id="tab-orders" role="tabpanel"
+                                    aria-labelledby="tab-orders-link">
+                                    <p class="h6 mb-4">Click here to view your orders</p>
+                                    <a href="/orders" class="border border-secondary py-2 px-4"><span
+                                            style="color: #445f84;">MY ORDERS →</span><i
+                                            class="icon-long-arrow-right"></i></a>
+                                </div><!-- .End .tab-pane -->
+
+                                {{!-- <div class="tab-pane fade" id="tab-downloads" role="tabpanel"
+                                    aria-labelledby="tab-downloads-link">
+                                    <p>No downloads available yet.</p>
+                                    <a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i
+                                            class="icon-long-arrow-right"></i></a>
+                                </div><!-- .End .tab-pane --> --}}
+
+                                <div class="tab-pane fade" id="tab-address" role="tabpanel"
+                                    aria-labelledby="tab-address-link">
+                                    <p>The following addresses will be used on the checkout page by default.</p>
+                                    <a class="btn btn-dark mt-3 mb-3 rounded-0 text-white" data-toggle="modal"
+                                        data-target="#addaddressmodal">Add New Address</a>
+                                    <div class="row">
+                                        {{#each address}}
+                                        <div class="col-lg-6 mb-2">
+                                            <div class="card card-dashboard">
+                                                <div class="card-body">
+                                                    <h5>{{this.name}}</h5>
+                                                    {{this.fullAddress}},<br>
+                                                    {{this.zip}},Ph:{{this.phone}}<br>
+                                                    Email:{{this.email}}<br>
+                                                    </p>
+                                                </div><!-- End .card-body -->
+                                            </div><!-- End .card-dashboard -->
+                                        </div><!-- End .col-lg-6 -->
+                                        {{/each}}
+                                    </div><!-- End .row -->
+                                </div><!-- .End .tab-pane -->
+
+                                <div class="tab-pane fade" id="tab-account" role="tabpanel"
+                                    aria-labelledby="tab-account-link">
+                                    <form action="#">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>First Name *</label>
+                                                <input type="text" class="form-control" required>
+                                            </div><!-- End .col-sm-6 -->
+
+                                            <div class="col-sm-6">
+                                                <label>Last Name *</label>
+                                                <input type="text" class="form-control" required>
+                                            </div><!-- End .col-sm-6 -->
+                                        </div><!-- End .row -->
+
+                                        <label>Display Name *</label>
+                                        <input type="text" class="form-control" required>
+                                        <small class="form-text">This will be how your name will be displayed in the
+                                            account section and in reviews</small>
+
+                                        <label>Email address *</label>
+                                        <input type="email" class="form-control" required>
+
+                                        <label>Current password (leave blank to leave unchanged)</label>
+                                        <input type="password" class="form-control">
+
+                                        <label>New password (leave blank to leave unchanged)</label>
+                                        <input type="password" class="form-control">
+
+                                        <label>Confirm new password</label>
+                                        <input type="password" class="form-control mb-2">
+
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>SAVE CHANGES</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+                                    </form>
+                                </div><!-- .End .tab-pane -->
+                            </div>
+                        </div><!-- End .col-lg-9 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .dashboard -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+
+</div><!-- End .page-wrapper -->
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+
+<!-- Sign in / Register Modal -->
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="icon-close"></i></span>
+                </button>
+
+                <div class="form-box">
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab"
+                                    aria-controls="signin" aria-selected="true">Sign In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab"
+                                    aria-controls="register" aria-selected="false">Register</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tab-content-5">
+                            <div class="tab-pane fade show active" id="signin" role="tabpanel"
+                                aria-labelledby="signin-tab">
+                                <form action="#">
+                                    <div class="form-group">
+                                        <label for="singin-email">Username or email address *</label>
+                                        <input type="text" class="form-control" id="singin-email" name="singin-email"
+                                            required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="singin-password">Password *</label>
+                                        <input type="password" class="form-control" id="singin-password"
+                                            name="singin-password" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>LOG IN</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="signin-remember">
+                                            <label class="custom-control-label" for="signin-remember">Remember
+                                                Me</label>
+                                        </div><!-- End .custom-checkbox -->
+
+                                        <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <p class="text-center">or sign in with</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="#" class="btn btn-login btn-g">
+                                                <i class="icon-google"></i>
+                                                Login With Google
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                        <div class="col-sm-6">
+                                            <a href="#" class="btn btn-login btn-f">
+                                                <i class="icon-facebook-f"></i>
+                                                Login With Facebook
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                <form action="#">
+                                    <div class="form-group">
+                                        <label for="register-email">Your email address *</label>
+                                        <input type="email" class="form-control" id="register-email"
+                                            name="register-email" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="register-password">Password *</label>
+                                        <input type="password" class="form-control" id="register-password"
+                                            name="register-password" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>SIGN UP</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="register-policy"
+                                                required>
+                                            <label class="custom-control-label" for="register-policy">I agree to the <a
+                                                    href="#">privacy policy</a> *</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <p class="text-center">or sign in with</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="#" class="btn btn-login btn-g">
+                                                <i class="icon-google"></i>
+                                                Login With Google
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                        <div class="col-sm-6">
+                                            <a href="#" class="btn btn-login  btn-f">
+                                                <i class="icon-facebook-f"></i>
+                                                Login With Facebook
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+                </div><!-- End .form-box -->
+            </div><!-- End .modal-body -->
+        </div><!-- End .modal-content -->
+    </div><!-- End .modal-dialog -->
+</div><!-- End .modal -->
+
+
+<!---======================add address modal==========================-->
+
+<div class="modal fade" id="addaddressmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Address Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/add-address-profile" method="post">
+                <div class="modal-body">
+
+                    <div class="calculate_shop_inner">
+                        <div class="calculate_shoping_form row">
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="firstname" name="firstname"
+                                    placeholder="First Name">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="lastname" name="lastname"
+                                    placeholder="Last Name">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input class="selectpicker col-lg-12" type="text" name="country" value="India"
+                                    id="country" readonly>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input type="text" class="form-control" id="street" name="street"
+                                    placeholder="Street Address">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="town" name="town" placeholder="Town / City">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="state" name="state" placeholder="State">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="text" class="form-control" id="zip" name="zip"
+                                    placeholder="Postcode / Zip">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone No.">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Address</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!---======================modal change password==========================-->
+<div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {{!-- <div class="modal-header border-bottom-0">
+
+            </div> --}}
+            <div class="card shadow-2-strong">
+                <div class="card-body ">
+                    <h3 class="text-center mt-4">Change Password</h3>
+                    <form action="/change-password" method="post">
+                        <label>Email address *</label>
+                        <input type="email" name="email" class="form-control" value="{{user.email}}" readonly>
+                        <label>Current password </label>
+                        <input id="passwordcheck" onkeyup="passwordCheck('{{user._id}}')" type="password" name="oldPassword" class="form-control">
+                        <label id="checkstatus" class="text-danger"></label><br>
+                        <div id="changearea" style="display: none;">
+                        <label>New password </label>
+                        <input id="newpassword" type="password" name="newPassword" class="form-control">
+                        <label>Confirm new password</label>
+                        <input onkeyup="comparePassword()" id="confirmpassword" type="password" name="confirmPassword" class="form-control mb-2">
+                        <label id="comparestatus" class="text-danger"></label><br>
+                        <button id="passwordsubmit" type="submit" class="btn btn-outline-primary-2" disabled>
+                            save changes
+                            <i class="icon-long-arrow-right"></i>
+                        </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-right border-top-0 py-4">
+                <button type="button" class="btn btn-secondary rounded-0 px-2 py-0" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("ul.nav-dashboard > li").click(function (e) {
+            $("ul.nav-dashboard > li").removeClass("active bg-light");
+            $(this).addClass("active bg-light");
+        });
+    });
+
+    function passwordCheck(userId){
+        let input=document.getElementById('passwordcheck').value
+        let status=document.getElementById('checkstatus')
+        
+        console.log(input)
+        $.ajax({
+            url:'/password-check',
+            method:'post',
+            data:{
+                userId:userId,
+                checkingPassword:input
+            },
+            success:(response)=>{
+                if(response.check){
+                    status.innerHTML=``
+                    status.innerHTML+="Password correct"
+                    status.classList.remove('text-danger')
+                    status.classList.add('text-success')
+                    document.getElementById('changearea').style.display="block"
+                }else{
+                    status.innerHTML=``
+                    status.innerHTML+="Password incorrect"
+                     status.classList.remove('text-success')
+                    status.classList.add('text-danger')
+                    document.getElementById('changearea').style.display="none"
+                }
+            }
+        })
+    }
+
+    function comparePassword(){
+        let newPassword = document.getElementById('newpassword').value
+        let confirmPassword = document.getElementById('confirmpassword').value
+        let button = document.getElementById('passwordsubmit')
+        let status = document.getElementById('comparestatus')
+        if(newPassword===confirmPassword){
+            status.innerHTML=``
+            button.removeAttribute('disabled')
+        }else{
+            status.innerHTML=``
+            status.innerHTML+=`password doesn't match`
+        }   
+    }
+
+    
+</script>

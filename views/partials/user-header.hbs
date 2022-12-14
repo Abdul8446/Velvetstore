@@ -1,0 +1,150 @@
+<!--================Menu Area =================-->
+<header class="shop_header_area carousel_menu_area">
+    <div class="carousel_top_header row m0">
+        <div class="container">
+            <div class="carousel_top_h_inner">
+                <div class="float-md-left">
+                    <div class="top_header_left">
+                        <div class="selector">
+                            {{#if userExist}}
+                            <select class="language_drop" name="countries" id="countries" style="width:300px;">
+                                <option value='yt' data-image="img/icon/flag-1.png" data-imagecss="flag yt"
+                                    data-title="English">English</option>
+                                <option value='yu' data-image="img/icon/flag-1.png" data-imagecss="flag yu"
+                                    data-title="Bangladesh">Bangla</option>
+                                <option value='yt' data-image="img/icon/flag-1.png" data-imagecss="flag yt"
+                                    data-title="English">English</option>
+                                <option value='yu' data-image="img/icon/flag-1.png" data-imagecss="flag yu"
+                                    data-title="Bangladesh">Bangla</option>
+                            </select>
+                            {{/if}}
+                            {{#if proDetails}}
+                            <select class="language_drop" name="countries" id="countries" style="width:300px;">
+                                <option value='yt' data-image="/img/icon/flag-1.png" data-imagecss="flag yt"
+                                    data-title="English">English</option>
+                                <option value='yu' data-image="/img/icon/flag-1.png" data-imagecss="flag yu"
+                                    data-title="Bangladesh">Bangla</option>
+                                <option value='yt' data-image="/img/icon/flag-1.png" data-imagecss="flag yt"
+                                    data-title="English">English</option>
+                                <option value='yu' data-image="/img/icon/flag-1.png" data-imagecss="flag yu"
+                                    data-title="Bangladesh">Bangla</option>
+                            </select>
+                            {{/if}}
+                        </div>
+                        <select class="selectpicker usd_select">
+                            <option>USD</option>
+                            <option>$</option>
+                            <option>$</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="float-md-right">
+                    <div class="top_header_middle">
+                        <a href="#"><i class="fa fa-phone"></i> Call Us: <span>+84 987 654 321</span></a>
+                        <a href="#"><i class="fa fa-envelope"></i> Email: <span>support@yourdomain.com</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="carousel_menu_inner">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                {{!-- <a class="navbar-brand p-0" style="border-radius: 50px;background: black;"> --}}
+                    {{!-- <h2 class="text-danger">🅥🅔🅛🅥🅔🅣</h2><h5><sub>🅢🅣🅞🅡🅔</sub></h5> --}}
+                    {{!-- <h1 style="color: purple;">𝓿𝓮𝓵𝓿𝓮𝓽𝓼𝓽𝓸𝓻𝓮</h1> --}}
+                    <h3 style="color:;">🆅🅴🅻🆅🅴🆃🆂🆃🅾🆁🅴</h3>
+                    {{!-- <h1 style=";">🅅🄴🄻🅅🄴🅃🅂🅃🄾🅁🄴</h1> --}}
+                    {{!-- <h2 class="" >𝙑𝙀𝙇𝙑𝙀𝙏</h2><h5><sub class="text-danger">𝙎𝙏𝙊𝙍𝙀</sub></h5> --}}
+                {{!-- </a> --}}
+                {{!-- {{#if userExist}}
+                <a class="navbar-brand" href="#"><img src="img/logo.png" alt=""></a>
+                {{/if}}
+                {{#if proDetails}}
+                <a class="navbar-brand" href="#"><img src="/img/logo.png" alt=""></a>
+                {{/if}} --}}
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item dropdown submenu">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                {{#if user}}
+                                {{user.username}}
+                                {{else}}
+                                Account
+                                {{/if}}
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {{#if user}}
+                                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                                {{else}}
+                                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/signup">Signup</a></li>
+                                {{/if}}
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="/shop/?page=1&limit=6">
+                                Shop</i>
+                            </a>
+                            {{!-- <ul class="dropdown-menu">
+                                <li class="nav-item"><a class="nav-link" href="">Shop By Category</a>
+                                </li>
+                            </ul> --}}
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+                        {{!-- <li class="nav-item"><a class="nav-link" href="#">lookbook</a></li> --}}
+                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    </ul>
+                    <ul class="navbar-nav justify-content-end">
+                        {{!-- <li class="search_icon"><a href="#"><i class="icon-magnifier icons"></i></a></li> --}}
+                        <li><a href="/wishlist">
+                                <span style="background: rgb(223, 3, 3);color:white;font-size:x-small;
+                                    position: absolute;" class="badge rounded-circle mx-3 my-3"
+                                    id="wish-count">{{wishCount}}</span>
+                                <i class="icon_heart_alt"></i></a>
+                        </li>
+                        <li class="user_icon"><a href="/my-account"><i class="icon-user icons"></i></a></li>
+                        <li class=""><a href="/orders"><i class="icon-basket-loaded"></i></a></li>
+                        <li><a href="/cart">
+                                <span style="background: rgb(223, 3, 3);color:white;font-size:x-small;
+                                    position: absolute;" class="badge rounded-circle mx-3 my-3"
+                                    id="cart-count">{{cartCount}}</span>
+                                <i class="icon-basket"></i></a>
+                        </li>
+                        {{#if user}}
+                        <li class="dropdown"><a onclick="getWalletBalance('{{user._id}}')" class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                <i class="icon-wallet"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right mt-3 rounded-0" aria-labelledby="dropdownMenuLink">
+                                <div class="d-flex justify-content-end mt-3 mb-1 mr-1"> Balance: ₹<span id="walletbalance"></span></div>
+                            </div>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<script>
+    function getWalletBalance(userId){
+        $.ajax({
+            url:'/get-wallet-balance/'+userId,
+            success:(response)=>{
+                document.getElementById('walletbalance').innerHTML=response.walletbalance
+            }
+        })
+    }
+</script>
