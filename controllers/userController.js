@@ -3,7 +3,6 @@ const productHelpers = require('../helpers/product-helpers')
 const userHelpers = require('../helpers/user-helpers')
 const categoryHelpers = require('../helpers/category-helpers')
 const orderHelpers = require('../helpers/order-helpers')
-const otpConfig = require('../config/otp-config')
 const CC = require('currency-converter-lt')
 require('dotenv').config()
 
