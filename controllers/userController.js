@@ -5,7 +5,14 @@ const categoryHelpers = require('../helpers/category-helpers')
 const orderHelpers = require('../helpers/order-helpers')
 const otpConfig = require('../config/otp-config')
 const CC = require('currency-converter-lt')
-const client = require("twilio")(otpConfig.accoutSid, otpConfig.authToken);
+require('dotenv').config()
+
+let accountSid = process.env.ACCOUNT_SID
+let authToken = process.env.AUTH_TOKEN
+let serviceSid = process.env.SERVICE_SID
+var client = require("twilio")(accountSid, authToken);
+
+// const client = require("twilio")(otpConfig.accoutSid, otpConfig.authToken);
 let blockStatus;
 const paypal = require('paypal-rest-sdk')
 paypal.configure({
@@ -16,19 +23,24 @@ paypal.configure({
 var passwordChangeSuccess
 
 const userHome = async (req, res, next) => {
-    let user = req.session.user
-    console.log(user);
-    let cartCount = null
-    let wishCount = null
-    if (user) {
-        cartCount = await userHelpers.getCartCount(req.session.user._id)
-        wishCount = await userHelpers.getWishCount(req.session.user._id)
-    }
-    if (req.session.userLoggedIn) {
-        console.log(cartCount);
-        res.render('index', { user, userExist: true, cartCount, wishCount });
-    } else {
-        res.render('index', { userExist: true });
+    try {
+        
+        let user = req.session.user
+        console.log(user);
+        let cartCount = null
+        let wishCount = null
+        if (user) {
+            cartCount = await userHelpers.getCartCount(req.session.user._id)
+            wishCount = await userHelpers.getWishCount(req.session.user._id)
+        }
+        if (req.session.userLoggedIn) {
+            console.log(cartCount);
+            res.render('index', { user, userExist: true, cartCount, wishCount });
+        } else {
+            res.render('index', { userExist: true });
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -110,26 +122,33 @@ const otpLogin = (req, res) => {
 }
 
 const sendCode = (req, res) => {
-    userHelpers.phoneCheck(req.body).then((response) => {
-        console.log('-----------------------------sendcode');
-        console.log(response);
-        if (response.user) {
-            if (response.userBlocked) {
-                req.session.userBlocked = true
-                res.redirect('/otp-login')
+    
+    try {
+        
+        userHelpers.phoneCheck(req.body).then((response) => {
+            console.log('-----------------------------sendcode');
+            console.log(response);
+            if (response.user) {
+                if (response.userBlocked) {
+                    req.session.userBlocked = true
+                    res.redirect('/otp-login')
+                } else {
+                    req.session.phone = response.user.phone
+                    client.verify.services(serviceSid)
+                        .verifications
+                        .create({ to: '+91' + req.session.phone, channel: 'sms' })
+                        .then(verification => console.log(verification.status));
+                    res.redirect('/verify-otp')
+                }
             } else {
-                req.session.phone = response.user.phone
-                client.verify.services(otpConfig.serviceSid)
-                    .verifications
-                    .create({ to: '+91' + req.session.phone, channel: 'sms' })
-                    .then(verification => console.log(verification.status));
-                res.redirect('/verify-otp')
+                req.session.mobileNotFoundErr = true
+                res.redirect('/otp-login')
             }
-        } else {
-            req.session.mobileNotFoundErr = true
-            res.redirect('/otp-login')
-        }
-    })
+        })
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
 
@@ -144,7 +163,7 @@ const verifiedOtp = async (req, res) => {
     console.log('-------------------------otp' + otp);
     console.log('--------------------------verifiedOtp' + req.session.phone);
     let userDetails = await userHelpers.getUsersByPhoneNumber(req.session.phone)
-    await client.verify.services(otpConfig.serviceSid)
+    await client.verify.services(serviceSid)
         .verificationChecks
         .create({ to: `+91${req.session.phone}`, code: otp })
         .then((response) => {
