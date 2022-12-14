@@ -66,14 +66,15 @@
             url: '/admin/get-sub-categories/' + id,
             method: 'get',
             success: (response) => {
-                subs = response[0].subCategories
+                console.log(response)
+                subs = response
                 subId = response[0]._id
                 console.log(subs)
                 console.log(subId)
                 console.log(response)
                 var rows = ``
                 for (var i = 0; i < subs.length; i++) {
-                    var row = `<option>${subs[i]}</option>`
+                    var row = `<option>${subs[i].name}</option>`
                     rows = rows + row
                 }
                 table.innerHTML = rows
