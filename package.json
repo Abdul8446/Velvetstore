@@ -25,6 +25,6 @@
     "slugify": "^1.6.5",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.4.8",
-    "twilio": "^3.83.4"
+    "twilio": "^3.84.0"
   }
 }

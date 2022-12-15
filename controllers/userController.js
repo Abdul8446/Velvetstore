@@ -6,12 +6,11 @@ const orderHelpers = require('../helpers/order-helpers')
 const CC = require('currency-converter-lt')
 require('dotenv').config()
 
-let accountSid = process.env.ACCOUNT_SID
-let authToken = process.env.AUTH_TOKEN
-let serviceSid = process.env.SERVICE_SID
-var client = require("twilio")(accountSid, authToken);
+let YOUR_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID
+let YOUR_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN
+let YOUR_SERVICE_ID = process.env.TWILIO_SERVICE_ID
+var client = require("twilio")(YOUR_ACCOUNT_SID, YOUR_AUTH_TOKEN);
 
-// const client = require("twilio")(otpConfig.accoutSid, otpConfig.authToken);
 let blockStatus;
 const paypal = require('paypal-rest-sdk')
 paypal.configure({
@@ -23,7 +22,7 @@ var passwordChangeSuccess
 
 const userHome = async (req, res, next) => {
     try {
-        
+
         let user = req.session.user
         console.log(user);
         let cartCount = null
@@ -121,9 +120,8 @@ const otpLogin = (req, res) => {
 }
 
 const sendCode = (req, res) => {
-    
+
     try {
-        
         userHelpers.phoneCheck(req.body).then((response) => {
             console.log('-----------------------------sendcode');
             console.log(response);
@@ -133,13 +131,14 @@ const sendCode = (req, res) => {
                     res.redirect('/otp-login')
                 } else {
                     req.session.phone = response.user.phone
-                    client.verify.services(serviceSid)
+                    client.verify.services(YOUR_SERVICE_ID)
                         .verifications
                         .create({ to: '+91' + req.session.phone, channel: 'sms' })
-                        .then(verification => console.log(verification.status));
+                        .then(verification => console.log(verification.status))
+                        .catch((error)=> console.log(error))
                     res.redirect('/verify-otp')
                 }
-            } else {
+            } else {   
                 req.session.mobileNotFoundErr = true
                 res.redirect('/otp-login')
             }
@@ -147,7 +146,7 @@ const sendCode = (req, res) => {
     } catch (error) {
         console.log(error);
     }
-    
+
 }
 
 
@@ -162,7 +161,7 @@ const verifiedOtp = async (req, res) => {
     console.log('-------------------------otp' + otp);
     console.log('--------------------------verifiedOtp' + req.session.phone);
     let userDetails = await userHelpers.getUsersByPhoneNumber(req.session.phone)
-    await client.verify.services(serviceSid)
+    await client.verify.services(YOUR_SERVICE_ID)
         .verificationChecks
         .create({ to: `+91${req.session.phone}`, code: otp })
         .then((response) => {
@@ -176,6 +175,10 @@ const verifiedOtp = async (req, res) => {
                 req.session.invalidOtp = true
                 res.redirect('/verify-otp')
             }
+        })
+        .catch((error) => {
+            console.log(error);
+
         })
 }
 
@@ -215,7 +218,7 @@ const shop = async (req, res) => {
         console.log(products)
         console.log('=============================================================')
 
-        res.render('user/shop', {page:req.query.page, user: req.session.user, pageNum, products, proDetails: true, cartCount, categories, wishCount })
+        res.render('user/shop', { page: req.query.page, user: req.session.user, pageNum, products, proDetails: true, cartCount, categories, wishCount })
     })
 }
 

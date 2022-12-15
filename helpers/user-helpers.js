@@ -591,7 +591,7 @@ module.exports = {
                 $set: {
                     username: updateUserDetails.username,
                     email: updateUserDetails.email,
-                    phonenumber: updateUserDetails.phonenumber
+                    phone: updateUserDetails.phone
 
                 }
             }).then((response) => {
