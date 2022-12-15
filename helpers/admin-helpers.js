@@ -132,16 +132,21 @@ module.exports = {
 
             let subTotal = 0
             let discountTotal = 0
+            let couponDiscount = 0
             for (let i = 0; i < orderItems.length; i++) {
                 subTotal += orderItems[i].quantitytotal
                 discountTotal += orderItems[i].discount
             }
-            let grandTotal = parseInt(subTotal - (discountTotal+orderItems[0].couponDiscount))
+            if(isNaN(orderItems[0].couponDiscount)){
+                orderItems[0].couponDiscount=0
+            }
+            couponDiscount=orderItems[0].couponDiscount
+            let grandTotal = parseInt(subTotal - (discountTotal+couponDiscount))
             let totals = {
                 subTotal: Math.round(subTotal),
                 discountTotal: Math.round(discountTotal),
                 grandTotal: Math.round(grandTotal),
-                couponDiscount:orderItems[0].couponDiscount
+                couponDiscount:couponDiscount
             }
             console.log(totals);
             console.log(address);
