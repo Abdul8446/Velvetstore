@@ -65,10 +65,10 @@ function verifyPayment(payment, order) {
     })
 }
 function speed() {
-
     document.getElementById('jhdshk').activeElement
 }
 
 
 
 
+     
