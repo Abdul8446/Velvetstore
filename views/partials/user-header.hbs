@@ -197,6 +197,7 @@
     function getWalletBalance(userId) {
         $.ajax({
             url: '/get-wallet-balance/' + userId,
+            method:'get',
             success: (response) => {
                 document.getElementById('walletbalance').innerHTML = response.walletbalance
             }
@@ -206,6 +207,7 @@
     function showWalletHistory(userId) {
         $.ajax({
             url: '/get-wallet-history/' + userId,
+            method:'get',
             success: (response) => {
                 let length = response.transaction.length
                 console.log(length)
