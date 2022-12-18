@@ -16,30 +16,66 @@ var instance = new Razorpay({
 
 module.exports = {
     doSignup: (userData) => {
-        let response={}
+        let response = {}
         return new Promise(async (resolve, reject) => {
-            let emailFind=await db.get().collection(collection.USER_COLLECTION).findOne({email:userData.email})
-            let phoneFind=await db.get().collection(collection.USER_COLLECTION).findOne({phone:userData.phone})
-            let referralFind=await db.get().collection(collection.USER_COLLECTION).findOne({referral:userData.referral})
-            if(emailFind){
-                response.emailError=true
+            var today = new Date();
+            var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+            let emailFind = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email })
+            let phoneFind = await db.get().collection(collection.USER_COLLECTION).findOne({ phone: userData.phone })
+            let referralFind = await db.get().collection(collection.USER_COLLECTION).findOne({ referral: userData.referral })
+            if (emailFind) {
+                response.emailError = true
                 resolve(response)
-            }else if(phoneFind){
-                response.phoneError=true 
-                resolve(response) 
-            }else if(referralFind){
-                await db.get().collection(collection.USER_COLLECTION).updateOne({referral:userData.referral},{$inc:{walletbalance:100}})
-                userData.walletbalance=50
-                userData.referral=userData.username.toUpperCase()
+            } else if (phoneFind) {
+                response.phoneError = true
+                resolve(response)
+            } else if (referralFind) {
+                await db.get().collection(collection.USER_COLLECTION).updateOne({ referral: userData.referral }, { $inc: { walletbalance: 100 } })
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ referral: userData.referral })
+                let referralUserId = user._id
+                db.get().collection(collection.WALLET_COLLECTION).updateOne({ userId: objectId(referralUserId) },
+                    {
+                        $inc: { walletbalance: 100 },
+                        $push: {
+                            transaction: {
+                                date: date,
+                                transaction: 'Referral',
+                                amount: 100,
+                                type: 'debit',
+                                balance: user.walletbalance
+                            }
+                        }
+                    })
+                userData.walletbalance = 50
+                userData.referral = userData.username.toUpperCase()
                 userData.password = await bcrypt.hash(userData.password, 10)
                 db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
+                    db.get().collection(collection.WALLET_COLLECTION).insertOne({
+                        userId: objectId(data.insertedId),
+                        walletbalance: userData.walletbalance,
+                        transaction: [{
+                            date: date,
+                            transaction: 'Referral',
+                            amount: 50,
+                            type: 'debit',
+                            balance: userData.walletbalance,
+                        }]
+                    })
                     resolve(data)
                 })
-            }else{
-                userData.walletbalance=0
-                userData.referral=userData.username.toUpperCase()
+            } else {
+                userData.walletbalance = 0
+                userData.referral = userData.username.toUpperCase()
                 userData.password = await bcrypt.hash(userData.password, 10)
                 db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
+                    console.log('=================================insertedId');
+                    console.log(data.insertedId);
+                    // db.get().collection(collection.WALLET_COLLECTION).insertOne({_id:data.insertedId},{
+                    //     date:new Date(),
+                    //     transaction:'Opening Balance',
+                    //     amount:0,
+                    //     balance:userData.walletbalance
+                    // })
                     resolve(data)
                 })
             }
@@ -106,30 +142,30 @@ module.exports = {
         })
     },
     addToCart: (prodId, userId) => {
-        try {      
+        try {
             return new Promise(async (resolve, reject) => {
                 let productPrice = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(prodId) })
-                console.log(productPrice);        
+                console.log(productPrice);
                 let price;
                 let offer;
                 if (productPrice.discount.status) {
-                    if(productPrice.subCatDiscount.status){
-                        if(productPrice.subCatDiscount.percent>=productPrice.discount.percent){
-                            price=productPrice.subCatOfferPrice
-                            offer=productPrice.subCatDiscount.percent
-                        }else{
-                            price=productPrice.offerPrice
-                            offer=productPrice.discount.percent
+                    if (productPrice.subCatDiscount.status) {
+                        if (productPrice.subCatDiscount.percent >= productPrice.discount.percent) {
+                            price = productPrice.subCatOfferPrice
+                            offer = productPrice.subCatDiscount.percent
+                        } else {
+                            price = productPrice.offerPrice
+                            offer = productPrice.discount.percent
                         }
-                    }else{
+                    } else {
                         price = productPrice.offerPrice
                         offer = productPrice.discount.percent
                     }
                 } else {
-                    if(productPrice.subCatDiscount.status){
+                    if (productPrice.subCatDiscount.status) {
                         price = productPrice.subCatOfferPrice
                         offer = productPrice.subCatDiscount.percent
-                    }else{
+                    } else {
                         price = productPrice.MRP
                         offer = 0
                     }
@@ -137,7 +173,7 @@ module.exports = {
                 console.log(price);
                 let prodObj = {
                     item: objectId(prodId),
-                    MRP:productPrice.MRP,
+                    MRP: productPrice.MRP,
                     quantity: 1,
                     price: price,
                     offer: offer
@@ -153,7 +189,14 @@ module.exports = {
                                     $inc: { 'products.$.quantity': 1 }
                                 }
                             ).then(() => {
-                                resolve()
+                                db.get().collection(collection.PRODUCT_COLLECTION)
+                                    .updateOne({ _id: objectId(prodId) },
+                                        {
+                                            $inc: { stock: -1 }
+                                        }
+                                    ).then(() => {
+                                        resolve()
+                                    })
                             })
                     } else {
                         console.log('-------------------------------cart exist');
@@ -163,7 +206,14 @@ module.exports = {
                                     $push: { products: prodObj }
                                 }
                             ).then((response) => {
-                                resolve()
+                                db.get().collection(collection.PRODUCT_COLLECTION)
+                                    .updateOne({ _id: objectId(prodId) },
+                                        {
+                                            $inc: { stock: -1 }
+                                        }
+                                    ).then(() => {
+                                        resolve()
+                                    })
                             })
                     }
                 } else {
@@ -174,10 +224,17 @@ module.exports = {
                         products: [prodObj]
                     }
                     db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response) => {
-                        resolve()
+                        db.get().collection(collection.PRODUCT_COLLECTION)
+                            .updateOne({ _id: objectId(prodId) },
+                                {
+                                    $inc: { stock: -1 }
+                                }
+                            ).then(() => {
+                                resolve()
+                            })
                     })
                 }
-    
+
             })
         } catch (error) {
             console.log(error)
@@ -248,6 +305,21 @@ module.exports = {
                             $pull: { products: { item: objectId(details.product) } }
                         }
                     ).then((response) => {
+                        if (details.count == -1) {
+                            db.get().collection(collection.PRODUCT_COLLECTION)
+                                .updateOne({ _id: objectId(details.product) },
+                                    {
+                                        $inc: { stock: 1 }
+                                    }
+                                )
+                        } else {
+                            db.get().collection(collection.PRODUCT_COLLECTION)
+                                .updateOne({ _id: objectId(details.product) },
+                                    {
+                                        $inc: { stock: -1 }
+                                    }
+                                )
+                        }
                         resolve({ removeProduct: true })
                     })
             } else {
@@ -257,6 +329,21 @@ module.exports = {
                             $inc: { 'products.$.quantity': details.count }
                         }
                     ).then((response) => {
+                        if (details.count == -1) {
+                            db.get().collection(collection.PRODUCT_COLLECTION)
+                                .updateOne({ _id: objectId(details.product) },
+                                    {
+                                        $inc: { stock: 1 }
+                                    }
+                                )
+                        } else {
+                            db.get().collection(collection.PRODUCT_COLLECTION)
+                                .updateOne({ _id: objectId(details.product) },
+                                    {
+                                        $inc: { stock: -1 }
+                                    }
+                                )
+                        }
                         resolve({ status: true })
                     })
             }
@@ -301,8 +388,14 @@ module.exports = {
                                         {
                                             $multiply: [
                                                 '$product.MRP',
-                                                { $divide: [{ $cond: { if: { $gte: [ '$product.subCatDiscount.percent', '$product.discount.percent' ] },
-                                                 then: '$product.subCatDiscount.percent', else: '$product.discount.percent' } }, 100] }
+                                                {
+                                                    $divide: [{
+                                                        $cond: {
+                                                            if: { $gte: ['$product.subCatDiscount.percent', '$product.discount.percent'] },
+                                                            then: '$product.subCatDiscount.percent', else: '$product.discount.percent'
+                                                        }
+                                                    }, 100]
+                                                }
                                             ]
                                         }
                                     ]
@@ -318,10 +411,10 @@ module.exports = {
     },
     placeOrder: (order, products, total) => {
         let totalAmount = parseInt(total[0].total)
-        if(order.couponDiscount){
-            totalAmount =totalAmount-order.couponDiscount
+        if (order.couponDiscount) {
+            totalAmount = totalAmount - order.couponDiscount
         }
-        console.log('=o========================' + totalAmount+'discount'+order.couponDiscount);
+        console.log('=o========================' + totalAmount + 'discount' + order.couponDiscount);
         return new Promise((resolve, reject) => {
             var today = new Date();
             var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
@@ -332,18 +425,18 @@ module.exports = {
                 paymentMethod: order['payment-method'],
                 products: products,
                 totalAmount: totalAmount,
-                couponDiscount:parseInt(order.couponDiscount),
+                couponDiscount: parseInt(order.couponDiscount),
                 date: date,
                 status: status
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
                 db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.userId) })
-                for (i = 0; i < products.length; i++) {
-                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: products[i].item },
-                        {
-                            $inc: { stock: -Math.abs(products[i].quantity) }
-                        })
-                }
+                // for (i = 0; i < products.length; i++) {
+                //     db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: products[i].item },
+                //         {
+                //             $inc: { stock: -Math.abs(products[i].quantity) }
+                //         })
+                // }
                 resolve(response.insertedId)
             })
         })
@@ -432,7 +525,7 @@ module.exports = {
                         'products.item': 1, status: 1, date: 1, quantity: '$products.quantity', productname: '$product.name', price: '$product.MRP',
                         quantitytotal: { $multiply: ['$products.quantity', { $toInt: '$product.MRP' }] }, productimage: { $arrayElemAt: ['$product.img', 0] },
                         offer: '$products.offer', discount: { $multiply: ['$products.quantity', { $multiply: ['$products.MRP', { $divide: ['$products.offer', 100] }] }] },
-                        couponDiscount:1
+                        couponDiscount: 1
                     }
                 }
             ]).toArray()
@@ -470,24 +563,24 @@ module.exports = {
                 subTotal += orderItems[i].quantitytotal
                 discountTotal += orderItems[i].discount
             }
-            if(isNaN(orderItems[0].couponDiscount)){
-                orderItems[0].couponDiscount=0
+            if (isNaN(orderItems[0].couponDiscount)) {
+                orderItems[0].couponDiscount = 0
             }
-            couponDiscount=orderItems[0].couponDiscount
-            
-           
-            let grandTotal = parseInt(subTotal - (discountTotal+couponDiscount))
+            couponDiscount = orderItems[0].couponDiscount
+
+
+            let grandTotal = parseInt(subTotal - (discountTotal + couponDiscount))
             let totals = {
                 subTotal: Math.round(subTotal),
                 discountTotal: Math.round(discountTotal),
                 grandTotal: Math.round(grandTotal),
-                couponDiscount:couponDiscount
+                couponDiscount: couponDiscount
             }
             console.log(totals);
             console.log(address);
             console.log(orderItems);
 
-            resolve({orderItems,address,totals})
+            resolve({ orderItems, address, totals })
         })
     },
     addToWishlist: (prodId, userId) => {
@@ -532,8 +625,8 @@ module.exports = {
                     $project: {
                         user: 1, productId: 1, name: '$products.name', MRP: '$products.MRP',
                         offerPrice: '$products.offerPrice', discount: '$products.discount', img: '$products.img',
-                        subCatDiscount:'$products.subCatDiscount',subCatOfferPrice:'$products.subCatOfferPrice',
-                        stock:'$products.stock'   
+                        subCatDiscount: '$products.subCatDiscount', subCatOfferPrice: '$products.subCatOfferPrice',
+                        stock: '$products.stock'
                     }
                 }
             ]).toArray()
@@ -642,11 +735,11 @@ module.exports = {
             }
         })
     },
-    getWalletBalance:(userId)=>{
-        try {        
-            return new Promise(async(resolve,reject)=>{
-                let user=await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(userId)})
-                console.log(user.walletbalance+'===============================')
+    getWalletBalance: (userId) => {
+        try {
+            return new Promise(async (resolve, reject) => {
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
+                console.log(user.walletbalance + '===============================')
                 resolve(user)
             })
         } catch (error) {
@@ -678,5 +771,11 @@ module.exports = {
             })
         })
     },
+    getWalletHistory:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let wallet=await db.get().collection(collection.WALLET_COLLECTION).findOne({userId:objectId(userId)})
+            resolve(wallet)
+        })
+    }
 }
 

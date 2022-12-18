@@ -241,8 +241,8 @@ const getProductsBy_Category = async (req, res) => {
     productHelpers.getProductsByCategory({ catId: req.query.id, page: req.query.page, limit: req.query.limit }).then((data) => {
         let products = data.products
         let pageNum = data.pageNum
-        console.log(products);
-        res.render('user/shopbycategory', { user: req.session.user, pageNum, products, proDetails: true, cartCount, categories, wishCount })
+        console.log(req.query.page);
+        res.render('user/shopbycategory', { page:req.query.page, user: req.session.user, pageNum, products, proDetails: true, cartCount, categories, wishCount })
     })
 }
 
@@ -258,7 +258,7 @@ const getProductsBy_SubCategory = async (req, res) => {
         let products = data.products
         let pageNum = data.pageNum
         console.log(products);
-        res.render('user/shopbysubcategory', { user: req.session.user, pageNum, products, proDetails: true, cartCount, categories, wishCount })
+        res.render('user/shopbysubcategory', {page:req.query.page, user: req.session.user, pageNum, products, proDetails: true, cartCount, categories, wishCount })
     })
 }
 
@@ -598,7 +598,11 @@ const remove_Coupon = (req, res) => {
     res.redirect('/checkout')
 }
 
-
+const wallet_History = (req,res)=>{
+    userHelpers.getWalletHistory(req.params.id).then((wallet)=>{
+        res.json(wallet)
+    })
+}
 
 
 
@@ -643,5 +647,6 @@ module.exports = {
     password_Check,
     wallet_Balance,
     postCouponSubmit,
-    remove_Coupon
+    remove_Coupon,
+    wallet_History
 } 

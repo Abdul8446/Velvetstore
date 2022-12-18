@@ -51,12 +51,15 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 {{!-- <a class="navbar-brand p-0" style="border-radius: 50px;background: black;"> --}}
-                    {{!-- <h2 class="text-danger">🅥🅔🅛🅥🅔🅣</h2><h5><sub>🅢🅣🅞🅡🅔</sub></h5> --}}
+                    {{!-- <h2 class="text-danger">🅥🅔🅛🅥🅔🅣</h2>
+                    <h5><sub>🅢🅣🅞🅡🅔</sub></h5> --}}
                     {{!-- <h1 style="color: purple;">𝓿𝓮𝓵𝓿𝓮𝓽𝓼𝓽𝓸𝓻𝓮</h1> --}}
-                    <h3 style="color:;">🆅🅴🅻🆅🅴🆃🆂🆃🅾🆁🅴</h3>
+                    <h4 style="color:;">🆅🅴🅻🆅🅴🆃🆂🆃🅾🆁🅴</h4>
                     {{!-- <h1 style=";">🅅🄴🄻🅅🄴🅃🅂🅃🄾🅁🄴</h1> --}}
-                    {{!-- <h2 class="" >𝙑𝙀𝙇𝙑𝙀𝙏</h2><h5><sub class="text-danger">𝙎𝙏𝙊𝙍𝙀</sub></h5> --}}
-                {{!-- </a> --}}
+                    {{!-- <h2 class="">𝙑𝙀𝙇𝙑𝙀𝙏</h2>
+                    <h5><sub class="text-danger">𝙎𝙏𝙊𝙍𝙀</sub></h5> --}}
+                    {{!--
+                </a> --}}
                 {{!-- {{#if userExist}}
                 <a class="navbar-brand" href="#"><img src="img/logo.png" alt=""></a>
                 {{/if}}
@@ -73,7 +76,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item dropdown submenu">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -103,31 +106,39 @@
                                 </li>
                             </ul> --}}
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+                        {{!-- <li class="nav-item"><a class="nav-link" href="#">Blog</a></li> --}}
                         {{!-- <li class="nav-item"><a class="nav-link" href="#">lookbook</a></li> --}}
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                    </ul>
-                    <ul class="navbar-nav justify-content-end">
+                        {{!-- <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li> --}}
+                        {{!--
+                    </ul> --}}
+                    {{!-- <ul class="navbar-nav justify-content-end"> --}}
                         {{!-- <li class="search_icon"><a href="#"><i class="icon-magnifier icons"></i></a></li> --}}
-                        <li><a href="/wishlist">
-                                <span style="background: rgb(223, 3, 3);color:white;font-size:x-small;
-                                    position: absolute;" class="badge rounded-circle mx-3 my-3"
-                                    id="wish-count">{{wishCount}}</span>
-                                <i class="icon_heart_alt"></i></a>
+                        <li class="nav-item"><a class="nav-link" href="/wishlist">
+                                Wishlist<i class="icon_heart_alt"></i><span style="background: rgb(223, 3, 3);color:white;font-size:x-small;
+                                margin-left: -2px;" class="badge rounded-circle" id="wish-count">{{wishCount}}</span>
+                            </a>
                         </li>
-                        <li class="user_icon"><a href="/my-account"><i class="icon-user icons"></i></a></li>
-                        <li class=""><a href="/orders"><i class="icon-basket-loaded"></i></a></li>
+                        <li class="user_icon"><a href="/my-account">Profile<i class="icon-user icons"></i></a></li>
+                        <li class=""><a href="/orders">Orders<i class="icon-basket-loaded"></i></a></li>
                         <li><a href="/cart">
-                                <span style="background: rgb(223, 3, 3);color:white;font-size:x-small;
-                                    position: absolute;" class="badge rounded-circle mx-3 my-3"
-                                    id="cart-count">{{cartCount}}</span>
-                                <i class="icon-basket"></i></a>
+                                Cart<i class="icon-basket"></i></a>
+                            <span style="background: rgb(223, 3, 3);color:white;font-size:x-small;
+                                margin-left: -6px;" class="badge rounded-circle" id="cart-count">{{cartCount}}</span>
+                            {{!-- <span
+                                style="background: rgb(223, 3, 3);color:white;font-size:x-small;margin-left: -2px;"
+                                class="badge rounded-circle mx-3 my-3" id="cart-count">{{cartCount}}</span> --}}
                         </li>
                         {{#if user}}
-                        <li class="dropdown"><a onclick="getWalletBalance('{{user._id}}')" class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                <i class="icon-wallet"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right mt-3 rounded-0" aria-labelledby="dropdownMenuLink">
-                                <div class="d-flex justify-content-end mt-3 mb-1 mr-1"> Balance: ₹<span id="walletbalance"></span></div>
+                        <li class="dropdown" style="margin-left: -10px;"><a onclick="getWalletBalance('{{user._id}}')"
+                                class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
+                                Wallet<i class="icon-wallet"></i></a>
+                            <div class="bg-dark dropdown-menu dropdown-menu-right rounded-0 "
+                                aria-labelledby="dropdownMenuLink">
+                                <div class="d-flex justify-content-center mt-3 mb-1 mr-1 text-white"> Balance: ₹<span
+                                        id="walletbalance" class="text-white"></span></div>
+                                <button onclick="showWalletHistory('{{user._id}}')" class="btn btn-secondary ml-2"
+                                    data-toggle="modal" data-target="#exampleModalLong">View History→</button>
                             </div>
                         </li>
                         {{/if}}
@@ -138,13 +149,78 @@
     </div>
 </header>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Wallet History</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Transaction</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+
+                            <tr>
+                                <td>10.10.10</td>
+                                <td>return</td>
+                                <td>-254</td>
+                                <td>406</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    function getWalletBalance(userId){
+    function getWalletBalance(userId) {
         $.ajax({
-            url:'/get-wallet-balance/'+userId,
-            success:(response)=>{
-                document.getElementById('walletbalance').innerHTML=response.walletbalance
+            url: '/get-wallet-balance/' + userId,
+            success: (response) => {
+                document.getElementById('walletbalance').innerHTML = response.walletbalance
             }
         })
+    }
+
+    function showWalletHistory(userId) {
+        $.ajax({
+            url: '/get-wallet-history/' + userId,
+            success: (response) => {
+                let length = response.transaction.length
+                console.log(length)
+                let tableBody = document.getElementById('table-body')
+                tableBody.innerHTML = ``
+                for (let i = 0; i < length; i++) {
+                    tableBody.innerHTML += `<tr>
+                                <td>${response.transaction[i].date}</td>
+                                <td>${response.transaction[i].transaction}</td>
+                                <td>${response.transaction[i].amount}</td>
+                                <td>${response.transaction[i].balance}</td>
+                                </tr>`
+                }
+            }
+        })
+
     }
 </script>

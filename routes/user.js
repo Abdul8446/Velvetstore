@@ -1,6 +1,6 @@
 var express = require('express');
 const { item_Delivered } = require('../controllers/adminController');
-const { userHome, userLogin, userSignup, userSignedup, userLoggedin, userLogout, cart, otpLogin, sendCode, verifyOtp, verifiedOtp, productDetails, addTo_Cart, changeProduct_Quantity, checkoutPage, place_order, add_address, orders, viewOrder_products, getProductsBy_Category, getProductsBy_SubCategory, getSub_Categories, shop, cancel_Order, re_Order, addTo_Wishlist, removeFrom_Wishlist, wishlist, verify_Payment, paypalPay, orderSuccess, myAccount, edit_Profile, postProfileEdit, add_address_profile, change_Password, password_Check, item_Return, email_Validate, wallet_Balance, postCouponSubmit, remove_Coupon } = require('../controllers/userController');
+const { userHome, userLogin, userSignup, userSignedup, userLoggedin, userLogout, cart, otpLogin, sendCode, verifyOtp, verifiedOtp, productDetails, addTo_Cart, changeProduct_Quantity, checkoutPage, place_order, add_address, orders, viewOrder_products, getProductsBy_Category, getProductsBy_SubCategory, getSub_Categories, shop, cancel_Order, re_Order, addTo_Wishlist, removeFrom_Wishlist, wishlist, verify_Payment, paypalPay, orderSuccess, myAccount, edit_Profile, postProfileEdit, add_address_profile, change_Password, password_Check, item_Return, email_Validate, wallet_Balance, postCouponSubmit, remove_Coupon, wallet_History } = require('../controllers/userController');
 const { verifyLogin } = require('../middlewares/user-middlewares');
 var router = express.Router();
 
@@ -86,6 +86,8 @@ router.get('/get-wallet-balance/:id', wallet_Balance)
 router.post('/couponSubmit', verifyLogin, postCouponSubmit)
 
 router.get('/remove-coupon/:id', verifyLogin, remove_Coupon)
+
+router.get('/get-wallet-history/:id',wallet_History)
 
 
 

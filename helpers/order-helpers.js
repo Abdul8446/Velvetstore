@@ -103,8 +103,10 @@ module.exports = {
                 })
         })
     },
-    orderApproveReturn: (orderId,userId) => {
+    orderApproveReturn: (orderId, userId) => {
         return new Promise(async (resolve, reject) => {
+            var today = new Date();
+            var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
             let prods = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
                     $match: { _id: objectId(orderId) }
@@ -113,13 +115,13 @@ module.exports = {
                     $unwind: '$products'
                 },
                 {
-                    $project: { _id: 0, 'products.item': 1, 'products.quantity': 1 ,totalAmount:1}
+                    $project: { _id: 0, 'products.item': 1, 'products.quantity': 1, totalAmount: 1 }
                 }
             ]).toArray()
             db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) },
                 {
                     $set: { status: 'returned' }
-                }).then(() => {
+                }).then(async() => {
                     for (let i = 0; i < prods.length; i++) {
                         console.log(prods[i]);
                         console.log(prods[i].products.item);
@@ -128,9 +130,23 @@ module.exports = {
                                 $inc: { stock: prods[i].products.quantity }
                             })
                     }
-                    db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},{
-                        $inc:{walletbalance:prods[0].totalAmount}
+                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
+                        $inc: { walletbalance: prods[0].totalAmount }
                     })
+                    let user=await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
+                    db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:objectId(userId)},
+                        {
+                            $inc:{walletbalance:  prods[0].totalAmount},
+                            $push:{
+                                transaction:{
+                                    date: date,
+                                    transaction: 'Return',
+                                    amount: prods[0].totalAmount,
+                                    type: 'debit',
+                                    balance: user.walletbalance
+                                }
+                            }
+                        })
                     resolve()
                 })
         })

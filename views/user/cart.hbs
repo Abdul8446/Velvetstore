@@ -46,21 +46,22 @@
                                     {{!-- {{/each}} --}}
                                     <td>
                                         {{#if this.product.discount.status}}
-                                            {{#if this.product.subCatDiscount.status}}
-                                                {{#when this.product.subCatDiscount.percent 'gteq' this.product.discount.percent}}
-                                                     <p class="red">₹{{../this.product.subCatOfferPrice}}</p>
-                                                {{else}}
-                                                     <p class="red">₹{{../this.product.offerPrice}}</p>
-                                                {{/when}}
-                                            {{else}}
-                                                 <p class="red">₹{{this.product.offerPrice}}</p>
-                                            {{/if}}
+                                        {{#if this.product.subCatDiscount.status}}
+                                        {{#when this.product.subCatDiscount.percent 'gteq'
+                                        this.product.discount.percent}}
+                                        <p class="red">₹{{../this.product.subCatOfferPrice}}</p>
                                         {{else}}
-                                            {{#if this.product.subCatDiscount.status}}
-                                                 <p class="red">₹{{this.product.subCatOfferPrice}}</p>
-                                            {{else}}
-                                                <p class="red">₹{{this.product.MRP}}</p>
-                                            {{/if}}
+                                        <p class="red">₹{{../this.product.offerPrice}}</p>
+                                        {{/when}}
+                                        {{else}}
+                                        <p class="red">₹{{this.product.offerPrice}}</p>
+                                        {{/if}}
+                                        {{else}}
+                                        {{#if this.product.subCatDiscount.status}}
+                                        <p class="red">₹{{this.product.subCatOfferPrice}}</p>
+                                        {{else}}
+                                        <p class="red">₹{{this.product.MRP}}</p>
+                                        {{/if}}
                                         {{/if}}
                                     </td>
                                     <td>
@@ -77,21 +78,22 @@
                                     </td>
                                     <td>
                                         {{#if this.product.discount.status}}
-                                            {{#if this.product.subCatDiscount.status}}
-                                                {{#when this.product.subCatDiscount.percent 'gteq' this.product.discount.percent}}
-                                                    <p>{{../this.totalSubCatOfferPrice}}</p>
-                                                {{else}}
-                                                    <p>{{../this.totalOfferPrice}}</p>
-                                                {{/when}}
-                                            {{else}}
-                                                <p>{{this.totalOfferPrice}}</p>
-                                            {{/if}}
+                                        {{#if this.product.subCatDiscount.status}}
+                                        {{#when this.product.subCatDiscount.percent 'gteq'
+                                        this.product.discount.percent}}
+                                        <p>{{../this.totalSubCatOfferPrice}}</p>
                                         {{else}}
-                                            {{#if this.product.subCatDiscount.status}}
-                                                <p>{{this.totalSubCatOfferPrice}}</p>
-                                            {{else}}
-                                                <p>{{this.totalMRP}}</p>
-                                            {{/if}}
+                                        <p>{{../this.totalOfferPrice}}</p>
+                                        {{/when}}
+                                        {{else}}
+                                        <p>{{this.totalOfferPrice}}</p>
+                                        {{/if}}
+                                        {{else}}
+                                        {{#if this.product.subCatDiscount.status}}
+                                        <p>{{this.totalSubCatOfferPrice}}</p>
+                                        {{else}}
+                                        <p>{{this.totalMRP}}</p>
+                                        {{/if}}
                                         {{/if}}
                                     </td>
                                 </tr>
@@ -223,7 +225,13 @@
             success: (response) => {
                 console.log(response)
                 if (response.removeProduct) {
-                    alert('Product removed from cart')
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Product removed from cart',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     location.reload()
                 } else {
                     quantity = document.getElementById(prodId).innerHTML = quantity + count

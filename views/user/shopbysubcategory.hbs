@@ -1,3 +1,4 @@
+<body onload="pageNumActive('{{page}}','{{products.[0].categoryId}}','{{products.[0].subCategory}}')">
 <!--================Categories Product Area =================-->
 <section onload="return confirm('hdfjkas')" class="categories_product_main p_80">
     <div class="container">
@@ -41,29 +42,29 @@
                                         <a href="/product-details/{{this._id}}"><img style="height: 318px;width: 269px;"
                                                 src="/images/product/{{this.img.[0]}}" alt=""></a>
                                         {{#if this.discount.status}}
-                                            {{#if this.subCatDiscount.status}}
-                                                {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
-                                                    <h5 class="new bg-danger">sale</h5>
-                                                    <h5 class="new px-1" style="margin-left: 175px;background: darkmagenta;">
-                                                        {{../this.subCatDiscount.percent}}%OFF</h5>
-                                                {{else}}
-                                                    <h5 class="new" style="background: rgb(9, 175, 106);">sale</h5>
-                                                    <h5 class="new bg-danger px-1" style="margin-left: 175px;">
-                                                        {{../this.discount.percent}}%OFF</h5>
-                                                {{/when}}
-                                            {{else}}
-                                                <h5 class="new" style="margin-left: 175px;background: darkmagenta;">sale</h5>
-                                                <h5 class="new bg-danger px-1" style="margin-left: 175px;">
-                                                    {{this.discount.percent}}%OFF</h5>
-                                            {{/if}}
+                                        {{#if this.subCatDiscount.status}}
+                                        {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                                        <h5 class="new bg-danger">sale</h5>
+                                        <h5 class="new px-1" style="margin-left: 175px;background: darkmagenta;">
+                                            {{../this.subCatDiscount.percent}}%OFF</h5>
                                         {{else}}
-                                            {{#if this.subCatDiscount.status}}
-                                                <h5 class="new bg-danger">sale</h5>
-                                                <h5 class="new px-1" style="margin-left: 175px;background: darkmagenta;">
-                                                    {{this.subCatDiscount.percent}}%OFF</h5>
-                                             {{else}}
-                                                <h5 class="new">New</h5>       
-                                            {{/if}}   
+                                        <h5 class="new" style="background: rgb(9, 175, 106);">sale</h5>
+                                        <h5 class="new bg-danger px-1" style="margin-left: 175px;">
+                                            {{../this.discount.percent}}%OFF</h5>
+                                        {{/when}}
+                                        {{else}}
+                                        <h5 class="new" style="margin-left: 175px;background: darkmagenta;">sale</h5>
+                                        <h5 class="new bg-danger px-1" style="margin-left: 175px;">
+                                            {{this.discount.percent}}%OFF</h5>
+                                        {{/if}}
+                                        {{else}}
+                                        {{#if this.subCatDiscount.status}}
+                                        <h5 class="new bg-danger">sale</h5>
+                                        <h5 class="new px-1" style="margin-left: 175px;background: darkmagenta;">
+                                            {{this.subCatDiscount.percent}}%OFF</h5>
+                                        {{else}}
+                                        <h5 class="new">New</h5>
+                                        {{/if}}
                                         {{/if}}
                                     </div>
                                     <div class="l_p_text">
@@ -73,7 +74,8 @@
                                                 {{#ifCond this.stock 0}}
                                                 <button class="add_cart_btn bg-danger px-4">Out of Stock</button>
                                                 {{else}}
-                                                <button class="add_cart_btn px-4" onclick="addToCart('{{this._id}}')">Add To
+                                                <button class="add_cart_btn px-4"
+                                                    onclick="addToCart('{{this._id}}')">Add To
                                                     Cart</button>
                                                 {{/ifCond}}
                                             </li>
@@ -89,25 +91,25 @@
                                         </ul>
                                         <h4>{{this.name}}</h4>
                                         {{#if this.discount.status}}
-                                            {{#if this.subCatDiscount.status}}
-                                                {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
-                                                    <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
-                                                    <a class="h5 text-danger"> ₹{{../this.subCatOfferPrice}}</a>
-                                                {{else}}
-                                                    <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
-                                                    <a class="h5 text-danger"> ₹{{../this.offerPrice}}</a>
-                                                {{/when}}
-                                            {{else}}
-                                                <del class="h5" style="color: rgb(155, 145, 145);">₹{{this.MRP}}</del>
-                                                <a class="h5 text-danger"> ₹{{this.offerPrice}}</a>
-                                            {{/if}}
+                                        {{#if this.subCatDiscount.status}}
+                                        {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                                        <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                                        <a class="h5 text-danger"> ₹{{../this.subCatOfferPrice}}</a>
                                         {{else}}
-                                            {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
-                                                <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
-                                                <a class="h5 text-danger"> ₹{{../this.subCatOfferPrice}}</a>
-                                            {{else}}
-                                                <a class="h5">₹{{../this.MRP}}</a>
-                                            {{/when}}
+                                        <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                                        <a class="h5 text-danger"> ₹{{../this.offerPrice}}</a>
+                                        {{/when}}
+                                        {{else}}
+                                        <del class="h5" style="color: rgb(155, 145, 145);">₹{{this.MRP}}</del>
+                                        <a class="h5 text-danger"> ₹{{this.offerPrice}}</a>
+                                        {{/if}}
+                                        {{else}}
+                                        {{#when this.subCatDiscount.percent 'gteq' this.discount.percent}}
+                                        <del class="h5" style="color: rgb(155, 145, 145);">₹{{../this.MRP}}</del>
+                                        <a class="h5 text-danger"> ₹{{../this.subCatOfferPrice}}</a>
+                                        {{else}}
+                                        <a class="h5">₹{{../this.MRP}}</a>
+                                        {{/when}}
                                         {{/if}}
                                     </div>
                                 </div>
@@ -116,10 +118,13 @@
                         </div>
                         <nav aria-label="Page navigation example" class="pagination_area">
                             <ul class="pagination">
+                                <li id="page-prev" class="page-item next"></li>
                                 {{#each pageNum}}
                                 <li class="pagenumber page-item"><a class="page-link"
-                                        href="/shopbysubcategory/?id={{../products.[0].categoryId}}&subCat={{../products.[0].subCategory}}&page={{inc @index}}&limit=6">{{inc @index}}</a></li>
+                                        href="/shopbysubcategory/?id={{../products.[0].categoryId}}&subCat={{../products.[0].subCategory}}&page={{inc @index}}&limit=6">{{inc
+                                        @index}}</a></li>
                                 {{/each}}
+                                <li id="page-next" class="page-item next"></li>
                             </ul>
                         </nav>
                     </div>
@@ -238,8 +243,23 @@
     </div>
 </section>
 <!--================End Categories Product Area =================-->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
 <script>
+    function pageNumActive(pageNum,catId,subCat) {
+        pageNum=parseInt(pageNum)
+        let length = document.getElementsByClassName('pagenumber').length
+        document.getElementsByClassName('page-link')[pageNum - 1].style["border"] = '1px solid black'
+        if (pageNum < length) {
+            document.getElementById('page-next').innerHTML = `<a class="page-link" href="/shopbysubcategory/?id=${catId}&subCat=${subCat}&page=${pageNum + 1}&limit=6"><i class="fa fa-angle-right" aria-hidden="true"></i></a>`
+        }
+        if (pageNum > 1) {
+            document.getElementById('page-prev').innerHTML = `<a class="page-link" href="/shopbysubcategory/?id=${catId}&subCat=${subCat}&page=${pageNum - 1}&limit=6"><i class="fa fa-angle-left" aria-hidden="true"></i></a>`
+        }
+    }
+
+
     function addToCart(prodId) {
         $.ajax({
             url: '/add-to-cart/' + prodId,
@@ -308,3 +328,4 @@
         })
     }
 </script>
+</body>
