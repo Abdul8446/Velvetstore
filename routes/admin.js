@@ -30,9 +30,9 @@ router.get('/categories',adminVerifyLogin, categories)
 
 router.get('/add-category', adminVerifyLogin,addCategories)
 
-router.post('/add-category',addedCategory)
+router.post('/add-category',addedCategory)         
 
-router.post('/add-sub-category',addSub_Category)
+router.post('/add-sub-category',addSub_Category)      
 
 router.get('/users',adminVerifyLogin, users)
 

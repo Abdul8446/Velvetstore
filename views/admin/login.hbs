@@ -28,24 +28,26 @@
                     <div class="card col-lg-4 mx-auto">
                         <div class="card-body px-5 py-5">
                             <h3 class="card-title text-left mb-3">Login</h3>
-                            <form action="/admin/login" method="post">
+                            <form action="/admin/login" method="post" name="loginForm" onsubmit="return validateLogin()">
                                 {{#if adminLoginErr}}
-                                <div class="alert alert-danger" role="alert">
+                                <p class="text-danger">
                                     Invalid user name or password!
-                                </div>
+                                </p>
                                 {{/if}}
                                 {{#if adminLoggedOut}}
-                                <div class="alert alert-success" role="alert">
+                                <div class="text-success">
                                     Logout Successfully
                                 </div>
                                 {{/if}}
                                 <div class="form-group">
                                     <label>Username or email *</label>
                                     <input type="text" name="email" class="form-control p_input">
+                                    <label class="text-danger" id="emailvalidate"></label>
                                 </div>
                                 <div class="form-group">
                                     <label>Password *</label>
                                     <input type="password" name="password" class="form-control p_input">
+                                    <label class="text-danger" id="passwordvalidate"></label>
                                 </div>
                                 <div class="form-group d-flex align-items-center justify-content-between">
                                     <div class="form-check">
@@ -87,6 +89,22 @@
     <script src="../../assets/js/settings.js"></script>
     <script src="../../assets/js/todolist.js"></script>
     <!-- endinject -->
+    <script>
+        function validateLogin(){
+            let email = document.forms["loginForm"]["email"].value;
+        let password=document.forms["loginForm"]["password"].value;
+        if (email == "") {
+            document.getElementById('emailvalidate').innerHTML = 'Email must be filled out'
+            return false;
+        } else if (password == "") {
+            document.getElementById('passwordvalidate').innerHTML = 'Password must be filled out'
+            return false;
+        } else if (password.trim() == "") {
+            document.getElementById('passwordvalidate').innerHTML = 'password must not be only spaces'
+            return false;
+        }
+        }
+    </script>
 </body>
 
 </html>

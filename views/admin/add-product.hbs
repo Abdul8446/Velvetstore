@@ -6,15 +6,18 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Add Products</h4>
-                        <form action="/admin/add-product" method="post" enctype="multipart/form-data">
+                        <form action="/admin/add-product" method="post" enctype="multipart/form-data"
+                            name="addproductForm" onsubmit="return addProductValidate()">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Name" required>
+                                <input type="text" name="name" class="form-control" placeholder="Name">
+                                <label class="text-danger" id="namevalidate"></label>
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" name="description" rows="4" placeholder="Description"
-                                    required></textarea>
+                                <textarea class="form-control" name="description" rows="4"
+                                    placeholder="Description"></textarea>
+                                <label class="text-danger" id="descriptionvalidate"></label>
                             </div>
                             <div class="form-group mt-4">
                                 <label for="">Category</label>
@@ -28,24 +31,28 @@
                                     {{/each}}
                                 </ul>
                                 <select id="catselect" class="col-lg-12 py-2" style="background: #2a3038"
-                                    name="subCategory" required>
-                                    <input id="catId" type="text" name="categoryId" hidden>
+                                    name="subcategory" onchange="catchange()">
                                 </select>
+                                <input id="catId" type="text" name="categoryId" hidden>
+                                <label class="text-danger" id="subcatvalidate"></label>
                             </div>
                             <div class="form-group">
                                 <label>MRP</label>
-                                <input type="number" name="MRP" class="form-control" required>
+                                <input type="number" name="MRP" class="form-control">
+                                <label class="text-danger" id="MRPvalidate"></label>
                             </div>
                             <div class="form-group">
                                 <label>Stock</label>
                                 <input type="number" class="form-control" name="stock">
+                                <label class="text-danger" id="stockvalidate"></label>
                             </div>
                             <div class="form-group">
                                 <label>File upload</label>
-                                <input id="fileInput" type="file" class="form-control" name="image" multiple required>
+                                <input id="fileInput" type="file" class="form-control" name="image" multiple>
+                                <label class="text-danger" id="imagevalidate"></label>
                             </div>
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                            <button onclick="goback()" class="btn btn-dark">Cancel</button>
+                            {{!-- <button onclick="goback()" class="btn btn-dark">Cancel</button> --}}
                         </form>
                         <canvas id="canvas"></canvas>
                         {{!-- <div style="display:none;">
@@ -89,6 +96,42 @@
 
 
 <script>
+    function catchange() {
+        let subcategory = document.forms["addproductForm"]["subcategory"].value
+        //document.getElementById('subcatvalidate').innerHTML=subcategory
+        alert(subcategory)
+    }
+
+    function addProductValidate() {
+        let name = document.forms["addproductForm"]["name"].value
+        let description = document.forms["addproductForm"]["description"].value
+        let subcategory = document.forms["addproductForm"]["subcategory"].value
+        let MRP = document.forms["addproductForm"]["MRP"].value
+        let stock = document.forms["addproductForm"]["stock"].value
+        let image = document.forms["addproductForm"]["image"].value
+
+        if (name == "" || name.trim() == "") {
+            document.getElementById('namevalidate').innerHTML = 'Name must be filled out'
+            return false
+        } else if (description == "" || description.trim() == "") {
+            document.getElementById('descriptionvalidate').innerHTML = 'Description must be filled out'
+            return false
+        } else if (subcategory == "") {
+            document.getElementById('subcatvalidate').innerHTML = 'Please select any category'
+            return false
+        } else if (MRP == "") {
+            document.getElementById('MRPvalidate').innerHTML = 'MRP must be filled out'
+            return false
+        } else if (stock == "") {
+            document.getElementById('stockvalidate').innerHTML = 'Stock must be filled out'
+            return false
+        } else if (image == "") {
+            document.getElementById('imagevalidate').innerHTML = 'Image must be uploaded'
+            return false
+        }
+    }
+
+
     function goback() {
         window.location.href = '/admin/products'
     }
@@ -198,10 +241,10 @@
                     // Replace the original image file with the new cropped image file
                     // Hide the cropper box
                     //imagebox.style.display = 'none'
-                    console.log(file)        
+                    console.log(file)
 
                     //document.getElementById(file.name).src = URL.createObjectURL(event.target.files[0])
-                    
+
                     // Hide the crop button
                     crop_btn.style.display = 'none'
                 });

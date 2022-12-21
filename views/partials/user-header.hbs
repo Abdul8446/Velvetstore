@@ -113,14 +113,16 @@
                     </ul> --}}
                     {{!-- <ul class="navbar-nav justify-content-end"> --}}
                         {{!-- <li class="search_icon"><a href="#"><i class="icon-magnifier icons"></i></a></li> --}}
-                        <li class="nav-item"><a class="nav-link" href="/wishlist">
+                        <li style="margin-left: -10px;" class="nav-item"><a class="nav-link" href="/wishlist">
                                 Wishlist<i class="icon_heart_alt"></i><span style="background: rgb(223, 3, 3);color:white;font-size:x-small;
                                 margin-left: -2px;" class="badge rounded-circle" id="wish-count">{{wishCount}}</span>
                             </a>
                         </li>
-                        <li class="user_icon"><a href="/my-account">Profile<i class="icon-user icons"></i></a></li>
-                        <li class=""><a href="/orders">Orders<i class="icon-basket-loaded"></i></a></li>
-                        <li><a href="/cart">
+                        <li style="margin-left: -10px;"><a href="/my-account">Profile<i class="icon-user icons"></i></a>
+                        </li>
+                        <li style="margin-left: -10px;"><a href="/orders">Orders<i class="icon-basket-loaded"></i></a>
+                        </li>
+                        <li style="margin-left: -10px;"><a href="/cart">
                                 Cart<i class="icon-basket"></i></a>
                             <span style="background: rgb(223, 3, 3);color:white;font-size:x-small;
                                 margin-left: -6px;" class="badge rounded-circle" id="cart-count">{{cartCount}}</span>
@@ -137,8 +139,8 @@
                                 aria-labelledby="dropdownMenuLink">
                                 <div class="d-flex justify-content-center mt-3 mb-1 mr-1 text-white"> Balance: ₹<span
                                         id="walletbalance" class="text-white"></span></div>
-                                <button onclick="showWalletHistory('{{user._id}}')" class="btn btn-secondary ml-2"
-                                    data-toggle="modal" data-target="#exampleModalLong">View History→</button>
+                                <button id="historybtn" onclick="showWalletHistory('{{user._id}}')" class="btn btn-secondary ml-2"
+                                    data-toggle="modal" data-target="#exampleModalLong" style="display: none;">View History→</button>
                             </div>
                         </li>
                         {{/if}}
@@ -175,7 +177,7 @@
                         </thead>
                         <tbody id="table-body">
 
-                           
+
                         </tbody>
                     </table>
                 </div>
@@ -192,9 +194,12 @@
     function getWalletBalance(userId) {
         $.ajax({
             url: '/get-wallet-balance/' + userId,
-            method:'get',
+            method: 'get',
             success: (response) => {
                 document.getElementById('walletbalance').innerHTML = response.walletbalance
+                if(response.walletbalance!=0){
+                    document.getElementById('historybtn').style.display="block"
+                }
             }
         })
     }
@@ -205,7 +210,7 @@
     function showWalletHistory(userId) {
         $.ajax({
             url: '/get-wallet-history/' + userId,
-            method:'get',
+            method: 'get',
             success: (response) => {
                 let length = response.transaction.length
                 console.log(length)

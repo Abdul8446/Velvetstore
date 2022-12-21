@@ -70,5 +70,21 @@ function speed() {
 
 
 
+function addProductValidate(){
+        let name = document.forms["addproductForm"]["name"].value
+        let description = document.forms['addproductForm']['description'].value
+        let subcategory = document.forms['addproductForm']['subcategory'].value
+        let MRP = document.forms['addproductForm']['MRP'].value
+        let stock = document.forms['addproductForm']['stock'].value
+        let image = document.forms['addproductForm']['image'].value
+        if(name==""||name.trim()==""){
+            document.getElementById('namevalidate').innerHTML='Name must be filled out'
+            return false
+        }else if(description==""||description.trim()==""){
+            document.getElementById('descriptionvalidate').innerHTML='Name must be filled out'
+            return false
+        }
+    }
+
 
      

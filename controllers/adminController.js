@@ -129,6 +129,7 @@ const edited_product = (req, res) => {
     })
     const product = req.body
     product.img = fileName
+    console.log(product);
     productHelpers.updateProduct(req.params.id, req.body).then(() => {
         res.redirect('/admin/products/?page=1&limit=6')
     })

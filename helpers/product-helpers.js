@@ -65,7 +65,7 @@ module.exports = {
                 $set: {
                     name: prodDetails.name,
                     description: prodDetails.description,
-                    price: prodDetails.price,
+                    MRP: prodDetails.MRP,
                     img: prodDetails.img
                 }
             }).then((response) => {

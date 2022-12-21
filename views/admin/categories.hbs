@@ -57,7 +57,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="/admin/edit-sub-category" method="post">
+            <form action="/admin/edit-sub-category" method="post" name="editsubcategoryForm" onsubmit="return validateSubCategory()">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Sub-category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -68,8 +68,9 @@
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Name:</label>
                         <input type="text" name="catName" class="form-control" id="catname">
-                        <input type="text" name="catId" id="catid" >
-                        <input type="text" name="catPrev" id="catprev" >
+                        <label class="text-danger" id="subcatvalidate"></label>
+                        <input type="text" name="catId" id="catid" hidden>
+                        <input type="text" name="catPrev" id="catprev" hidden>
 
                     </div>
                 </div>
@@ -103,10 +104,11 @@
                     <div class="container-fluid">
                         <div class="row">
                             <p id="discountalert" class="text-danger"></p>
-                            <input class="col-12" type="number" name="discount" required>
-                            <input id="discountmodal" type="text" name="catId">
-                            <input id="subcatname" type="text" name="subCatName">
-                            <input id="index" type="text" name="index">
+                            <input class="col-12" type="number" name="discount">
+                            <label class="text-danger" id="discountvalidate"></label>
+                            <input id="discountmodal" type="text" name="catId" hidden>
+                            <input id="subcatname" type="text" name="subCatName" hidden>
+                            <input id="index" type="text" name="index" hidden>
                         </div>
                     </div>
                 </div>
@@ -209,5 +211,21 @@
         document.getElementById('discountmodal').setAttribute('value', catId)
         document.getElementById('subcatname').setAttribute('value',subCatName)
         document.getElementById('index').setAttribute('value',index)
+    }
+
+    function validateDiscount(){
+        let discount = document.forms["discountform"]["discount"].value
+        if(discount==""||discount.trim()==""){
+            document.getElementById('discountvalidate').innerHTML='Discount cannot be empty'
+            return false
+        }
+    }
+
+    function validateSubCategory(){
+        let discount = document.forms["editsubcategoryForm"]["catname"].value
+        if(discount==""||discount.trim()==""){
+            document.getElementById('subcatvalidate').innerHTML='Category must not be empty'
+            return false
+        }
     }
 </script>

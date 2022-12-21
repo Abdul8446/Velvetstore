@@ -21,12 +21,12 @@
                     <div class="login_title">
 
                         {{#if blockStatus}}
-                        <div class="alert alert-danger" role="alert">
+                        <div class="text-danger" role="alert">
                             User Blocked
                         </div>
                         {{/if}}
                         {{#if loginErr}}
-                        <div class="alert alert-danger" role="alert">
+                        <div class="text-danger" role="alert">
                             Invalid User !!
                         </div>
                         {{else}}
@@ -34,12 +34,14 @@
                         <p>Log in to your account to discovery all great features in this template.</p>
                         {{/if}}
                     </div>
-                    <form class="login_form row" action="/login" method="post">
+                    <form name="loginForm" class="login_form row" action="/login" method="post" onsubmit="return validateLogin()">
                         <div class="col-lg-12 form-group">
                             <input class="form-control" type="email" name="email" placeholder="email">
+                            <label class="text-danger" id="emailvalidate"></label>
                         </div>
                         <div class="col-lg-12 form-group">
                             <input class="form-control" type="password" name="password" placeholder="Password">
+                            <label class="text-danger" id="passwordvalidate"></label>
                         </div>
                         <div class="col-lg-12 form-group">
                             <div class="creat_account">
@@ -65,3 +67,20 @@
     </div>
 </section>
 <!--================End login Area =================-->
+
+<script>
+    function validateLogin(){
+        let email = document.forms["loginForm"]["email"].value;
+        let password=document.forms["loginForm"]["password"].value;
+        if (email == "") {
+            document.getElementById('emailvalidate').innerHTML = 'Email must be filled out'
+            return false;
+        } else if (password == "") {
+            document.getElementById('passwordvalidate').innerHTML = 'Password must be filled out'
+            return false;
+        } else if (password.trim() == "") {
+            document.getElementById('passwordvalidate').innerHTML = 'password must not be only spaces'
+            return false;
+        }
+    }
+</script>

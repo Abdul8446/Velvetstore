@@ -70,12 +70,6 @@ module.exports = {
                 db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
                     console.log('=================================insertedId');
                     console.log(data.insertedId);
-                    // db.get().collection(collection.WALLET_COLLECTION).insertOne({_id:data.insertedId},{
-                    //     date:new Date(),
-                    //     transaction:'Opening Balance',
-                    //     amount:0,
-                    //     balance:userData.walletbalance
-                    // })
                     resolve(data)
                 })
             }
@@ -771,11 +765,37 @@ module.exports = {
             })
         })
     },
-    getWalletHistory:(userId)=>{
-        return new Promise(async(resolve,reject)=>{
-            let wallet=await db.get().collection(collection.WALLET_COLLECTION).findOne({userId:objectId(userId)})
+    getWalletHistory: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let wallet = await db.get().collection(collection.WALLET_COLLECTION).findOne({ userId: objectId(userId) })
             resolve(wallet)
         })
+    },
+    deleteCartProducts: (details) => {
+        try {
+            // console.log(details.productQuantity);
+            return new Promise((resolve, reject) => {
+                prodQuantity=parseInt(details.prodQuantity)
+                db.get().collection(collection.CART_COLLECTION)
+                    .updateOne({ _id: objectId(details.cartId), 'products.item': objectId(details.prodId) },
+                        {
+                            $pull: { products: { item: objectId(details.prodId) } }
+                        }
+                    ).then((response) => {
+                        db.get().collection(collection.PRODUCT_COLLECTION)
+                            .updateOne({ _id: objectId(details.prodId) },
+                                {
+                                    $inc: { stock:prodQuantity }
+                                }
+                            )
+                            .then(() => {
+                                resolve()      
+                            })
+                    })
+            })    
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

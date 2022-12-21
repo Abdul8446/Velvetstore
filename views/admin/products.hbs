@@ -31,7 +31,7 @@
                                             <tbody>
                                                 {{#each products}}
                                                 <tr>
-                                                    <th scope="row">{{this.index}}</td>
+                                                    <th scope="row">{{inc @index}}</td>
                                                     <td>{{this.name}}</td>
                                                     <td>₹ {{this.MRP}}</td>
                                                     <td class="text-danger">
@@ -71,11 +71,11 @@
                                     </div>
                                     <nav aria-label="Page navigation example" class="pagination_area d-flex justify-content-end mt-2">
                                         <ul class="pagination">
-                                            {{#each pageNum}}
+                                            {{!-- {{#each pageNum}}
                                             <li class="pagenumber page-item"><a class="page-link"
                                                     href="/admin/products/?page={{inc @index}}&limit=6">{{inc
                                                     @index}}</a></li>
-                                            {{/each}}
+                                            {{/each}} --}}
                                             {{!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
                                             <li class="page-item"><a class="page-link" href="#">3</a></li>
                                             <li class="page-item"><a class="page-link" href="#">4</a></li>
@@ -222,6 +222,13 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
 
 <script> 
     function validateDiscount() {

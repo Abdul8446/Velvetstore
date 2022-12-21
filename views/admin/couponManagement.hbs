@@ -6,20 +6,21 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="mb-4">Add Coupon</h3>
-                        <form action="/admin/addcoupon" method="post">
+                        <form action="/admin/addcoupon" method="post" name="couponForm" onsubmit="return couponValidate()">
                             <div class="mb-3">
                                 <h6>Coupon Code</h6>
-                                <input type="text" name="coupon" class="form-control" placeholder="Enter Coupon code"
-                                    required="">
+                                <input type="text" name="coupon" class="form-control" placeholder="Enter Coupon code">
+                                <label class="text-danger" id="couponvalidate"></label>
                             </div>
                             <div class="mb-3">
                                 <h6>Discount</h6>
-                                <input type="number" name="discount" class="form-control" placeholder="Enter Discount"
-                                    required="">
+                                <input type="number" name="discount" class="form-control" placeholder="Enter Discount">
+                                <label class="text-danger" id="discountvalidate"></label>
                             </div>
                             <div class="mb-3">
                                 <h6>Expiry Date</h6>
                                 <input type="date" class="form-control" name="date">
+                                <label class="text-danger" id="datevalidate"></label>
                             </div>
 
                             <button type="submit" class="btn btn-success">Submit</button>
@@ -67,3 +68,30 @@
 </div>
 
 <!-- Form End -->
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
+
+<script>
+    function couponValidate() {
+        let coupon = document.forms["couponForm"]["coupon"].value
+        let discount = document.forms["couponForm"]["discount"].value
+        let date = document.forms["couponForm"]["date"].value
+        if ( coupon == "" || coupon.trim() == "") {
+            document.getElementById('couponvalidate').innerHTML = 'coupon name must be filled out'
+            return false
+        } else if (coupon.length<5){
+            document.getElementById('couponvalidate').innerHTML = 'Minimum 5 characters'
+            return false
+        } else if (discount == "") {
+            document.getElementById('discountvalidate').innerHTML = 'Discount must be filled out'
+            return false
+        } else if (date == "") {
+            document.getElementById('datevalidate').innerHTML = 'Date must be filled out'
+            return false
+        }
+    }
+</script>

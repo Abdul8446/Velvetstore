@@ -6,20 +6,23 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Edit Products</h4>
-                        <form action="/admin/edit-product/{{product._id}}" method="post" enctype="multipart/form-data">
+                        <form action="/admin/edit-product/{{product._id}}" method="post" enctype="multipart/form-data" name="editproductForm" onsubmit="return editProductValidate()">
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" name="name" class="form-control" placeholder="Name"
-                                    value="{{product.name}}" required>
+                                    value="{{product.name}}">
+                                    <label class="text-danger" id="namevalidate"></label>
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea class="form-control" name="description" rows="4" placeholder="Description"
-                                    value="" required>{{product.description}}</textarea>
+                                    value="">{{product.description}}</textarea>
+                                    <label class="text-danger" id="descriptionvalidate"></label>
                             </div>
                             <div class="form-group">
-                                <label>Price</label>
-                                <input type="number" name="price" class="form-control" value="{{product.MRP}}" required>
+                                <label>MRP</label>
+                                <input type="number" name="MRP" class="form-control" value="{{product.MRP}}">
+                                <label class="text-danger" id="MRPvalidate"></label>
                             </div>
                             <div class="form-group">
                                 <label>Image</label>
@@ -52,6 +55,22 @@
 </div>
 
 <script>
+    function editProductValidate() {
+        let name = document.forms["editproductForm"]["name"].value
+        let description = document.forms["editproductForm"]["description"].value
+        let MRP = document.forms["editproductForm"]["MRP"].value
+        if (name == "" || name.trim() == "") {
+            document.getElementById('namevalidate').innerHTML = 'Name must be filled out'
+            return false
+        } else if (description == "" || description.trim() == "") {
+            document.getElementById('descriptionvalidate').innerHTML = 'Description must be filled out'
+            return false
+        } else if (MRP == "") {
+            document.getElementById('MRPvalidate').innerHTML = 'MRP must be filled out'
+            return false
+        }
+    }
+
     function viewImage() {
         document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
         document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[1])

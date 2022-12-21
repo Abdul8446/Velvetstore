@@ -306,7 +306,7 @@ const cart = async (req, res) => {
         totalValue = await userHelpers.getTotalAmount(req.session.user._id)
         totalValue = Math.round(totalValue[0].total)
 
-        // console.log(products);
+        console.log(products);
         //  console.log(totalValue);
         res.render('user/cart', { products, user: req.session.user, userExist: true, totalValue, cartCount, wishCount })
     } else {
@@ -604,6 +604,16 @@ const wallet_History = (req,res)=>{
     })
 }
 
+const delete_CartProducts =(req,res)=>{
+    try {
+        userHelpers.deleteCartProducts(req.body).then(()=>{
+            res.json({deleteStatus:true})
+        })   
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 
 module.exports = {
@@ -648,5 +658,6 @@ module.exports = {
     wallet_Balance,
     postCouponSubmit,
     remove_Coupon,
-    wallet_History
+    wallet_History,
+    delete_CartProducts
 } 

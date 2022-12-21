@@ -25,9 +25,10 @@
                     {{#if invalidOtp}}
                     <div class="alert alert-danger">Invalid OTP!!</div>
                     {{/if}}
-                    <form class="login_form row" action="/verify-otp" method="post">
+                    <form class="login_form row" action="/verify-otp" method="post"  name="verifyotpForm" onsubmit="return validateverifyOtp()">
                         <div class="col-lg-12 form-group">
                             <input class="form-control" type="text" name="otp" placeholder="Enter OTP here">
+                            <label class="text-danger" id="otpvalidate"></label>
                         </div>
                         <div class="col-lg-12 form-group">
                             <button type="submit" value="submit" class="btn update_btn form-control">Verify</button>
@@ -58,6 +59,16 @@
 </section>
 <!--================End login Area =================-->
 <script>
+    function validateverifyOtp(){
+        let otp=document.forms["verifyotpForm"]["otp"].value;
+        if(otp=="" || otp.trim()==""){
+            document.getElementById('otpvalidate').innerHTML = 'Otp should not be empty!!'
+            return false;
+        }else{
+            return true
+        }
+    }
+
     let timerOn = true;
 
     function timer(remaining) {
