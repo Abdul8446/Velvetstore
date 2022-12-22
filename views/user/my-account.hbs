@@ -91,7 +91,7 @@
                                         Profile</a>
                                     <a class="btn btn-danger text-white mt-3 rounded-0" data-toggle="modal"
                                         data-target="#changePassword">Change Password</a><br>
-                                    {{#if passwordChangeSuccess}}    
+                                    {{#if passwordChangeSuccess}}
                                     <label class="text-success h5 mt-2">Password Changed Successfully!!</label>
                                     {{/if}}
                                 </div><!-- .End .tab-pane -->
@@ -344,20 +344,24 @@
                                     placeholder="Street Address" required>
                             </div>
                             <div class="form-group col-lg-6">
-                                <input type="text" class="form-control" id="town" name="town" placeholder="Town / City" required>
+                                <input type="text" class="form-control" id="town" name="town" placeholder="Town / City"
+                                    required>
                             </div>
                             <div class="form-group col-lg-6">
-                                <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+                                <input type="text" class="form-control" id="state" name="state" placeholder="State"
+                                    required>
                             </div>
                             <div class="form-group col-lg-6">
-                                <input type="text" class="form-control" id="zip" name="zip"
-                                    placeholder="Postcode / Zip" required>
+                                <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode / Zip"
+                                    required>
                             </div>
                             <div class="form-group col-lg-6">
-                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone No." required>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone No."
+                                    required>
                             </div>
                             <div class="form-group col-lg-12">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                    required>
                                 <input type="text" name="userId" id="" value="{{user._id}}" hidden>
                             </div>
                         </div>
@@ -388,18 +392,21 @@
                         <label>Email address *</label>
                         <input type="email" name="email" class="form-control" value="{{user.email}}" readonly>
                         <label>Current password </label>
-                        <input id="passwordcheck" onkeyup="passwordCheck('{{user._id}}')" type="password" name="oldPassword" class="form-control">
+                        <input id="passwordcheck" onkeyup="passwordCheck('{{user._id}}')" type="password"
+                            name="oldPassword" class="form-control">
                         <label id="checkstatus" class="text-danger"></label><br>
                         <div id="changearea" style="display: none;">
-                        <label>New password </label>
-                        <input id="newpassword" type="password" name="newPassword" class="form-control">
-                        <label>Confirm new password</label>
-                        <input onkeyup="comparePassword()" id="confirmpassword" type="password" name="confirmPassword" class="form-control mb-2">
-                        <label id="comparestatus" class="text-danger"></label><br>
-                        <button id="passwordsubmit" type="submit" class="btn btn-outline-primary-2" disabled>
-                            save changes
-                            <i class="icon-long-arrow-right"></i>
-                        </button>
+                            <label>New password </label>
+                            <input id="newpassword" type="password" name="newPassword" class="form-control">
+                            <label id="passwordvalidate" class="text-danger"></label><br>
+                            <label>Confirm new password</label>
+                            <input onfocus="passwordValidate()" onkeyup="comparePassword()" id="confirmpassword"
+                                type="password" name="confirmPassword" class="form-control mb-2">
+                            <label id="comparestatus" class="text-danger"></label><br>
+                            <button id="passwordsubmit" type="submit" class="btn btn-outline-primary-2" disabled>
+                                save changes
+                                <i class="icon-long-arrow-right"></i>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -422,49 +429,76 @@
         });
     });
 
-    function passwordCheck(userId){
-        let input=document.getElementById('passwordcheck').value
-        let status=document.getElementById('checkstatus')
-        
+    function passwordCheck(userId) {
+        let input = document.getElementById('passwordcheck').value
+        let status = document.getElementById('checkstatus')
+
         console.log(input)
         $.ajax({
-            url:'/password-check',
-            method:'post',
-            data:{
-                userId:userId,
-                checkingPassword:input
+            url: '/password-check',
+            method: 'post',
+            data: {
+                userId: userId,
+                checkingPassword: input
             },
-            success:(response)=>{
-                if(response.check){
-                    status.innerHTML=``
-                    status.innerHTML+="Password correct"
+            success: (response) => {
+                if (response.check) {
+                    status.innerHTML = ``
+                    status.innerHTML += "Password correct"
                     status.classList.remove('text-danger')
                     status.classList.add('text-success')
-                    document.getElementById('changearea').style.display="block"
-                }else{
-                    status.innerHTML=``
-                    status.innerHTML+="Password incorrect"
-                     status.classList.remove('text-success')
+                    document.getElementById('changearea').style.display = "block"
+                } else {
+                    status.innerHTML = ``
+                    status.innerHTML += "Password incorrect"
+                    status.classList.remove('text-success')
                     status.classList.add('text-danger')
-                    document.getElementById('changearea').style.display="none"
+                    document.getElementById('changearea').style.display = "none"
                 }
             }
         })
     }
 
-    function comparePassword(){
+    function comparePassword() {
         let newPassword = document.getElementById('newpassword').value
         let confirmPassword = document.getElementById('confirmpassword').value
         let button = document.getElementById('passwordsubmit')
         let status = document.getElementById('comparestatus')
-        if(newPassword===confirmPassword){
-            status.innerHTML=``
-            button.removeAttribute('disabled')
-        }else{
-            status.innerHTML=``
-            status.innerHTML+=`password doesn't match`
-        }   
+        let validpassword = document.getElementById('passwordvalidate')
+        if (newPassword === confirmPassword) {
+            if (newPassword == "") {
+                validpassword.innerHTML = ``
+                validpassword.innerHTML += `password cannot be empty`
+                button.disabled = true
+            } else if (newPassword.trim() == "") {
+                validpassword.innerHTML = ``
+                validpassword.innerHTML += `Spaces not allowed`
+                button.disabled = true
+            } else {
+                status.innerHTML = ``
+                button.disabled = false
+            }
+        } else {
+            status.innerHTML = ``
+            status.innerHTML += `password doesn't match`
+            button.disabled = true
+        }
     }
 
-    
+    function passwordValidate() {
+        let newPassword = document.getElementById('newpassword').value
+        let button = document.getElementById('passwordsubmit')
+        let validpassword = document.getElementById('passwordvalidate')
+        //button.disabled = true
+        if (newPassword == "") {
+            validpassword.innerHTML = ``
+            validpassword.innerHTML += `password cannot be empty`
+        }else if(newPassword.trim() == ""){
+            validpassword.innerHTML = ``
+            validpassword.innerHTML += `Spaces not allowed`
+        }
+    }
+
+
+
 </script>

@@ -76,7 +76,7 @@ const products = (req, res) => {
         console.log(page);
         console.log(limit);
         console.log(products);
-        res.render('admin/products', { admin: true, products, pageNum, product: true })
+        res.render('admin/products', { admindatatable: true, products, pageNum, product: true })
     })
 }
 
@@ -248,8 +248,8 @@ const viewProduct = async (req, res) => {
 
 const manage_orders = async (req, res) => {
     let orders = await adminHelpers.getAllOrders()
-    console.log(orders);
-    res.render('admin/manage-orders', { orders, admin: true, order: true })
+    console.log(orders);   
+    res.render('admin/manage-orders', { orders, admindatatable: true, order: true })
 }
 
 const item_Delivered = (req, res) => {
