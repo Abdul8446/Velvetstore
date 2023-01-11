@@ -335,7 +335,9 @@ const sales_Report = async (req, res) => {
   let MonthlySalesReport = await chartHelpers.getMonthlySales()
   let YearlySalesReport = await chartHelpers.getYearlySalesReport()
   let getDailySalesTotal = await chartHelpers.getDailySalesTotal()
-  res.render('admin/sales-report', { DailySalesReport, MonthlySalesReport, YearlySalesReport, getDailySalesTotal, admin:true })
+  let getMonthlySalesTotal = await chartHelpers.getMonthlySalesTotal()
+  let getYearlySalesTotal = await chartHelpers.getYearlySalesTotal()
+  res.render('admin/sales-report', { DailySalesReport, MonthlySalesReport, YearlySalesReport, getDailySalesTotal,getMonthlySalesTotal,getYearlySalesTotal, admin:true })
 }
 
 

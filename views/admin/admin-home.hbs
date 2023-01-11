@@ -48,17 +48,17 @@
             <div class="row">
               <div class="col-9">
                 <div class="d-flex align-items-center align-self-start">
-                  <h3 class="mb-0">₹{{totalRevenue}}</h3>
+                  <h3 class="mb-0">₹{{paypalTotalSale.[0].paypalTotal}}</h3>
                   {{!-- <p class="text-danger ml-2 mb-0 font-weight-medium">-2.4%</p> --}}
                 </div>
               </div>
               <div class="col-3">
-                <div class="icon icon-box-danger">
-                  <span class="mdi mdi-chart-line icon-item"></span>
+                <div class="icon icon-box-warning">
+                  <span class="mdi mdi-parking icon-item"></span>
                 </div>
               </div>
             </div>
-            <h6 class="text-muted font-weight-normal">Total Revenue</h6>
+            <h6 class="text-muted font-weight-normal">Total Paypal</h6>
           </div>
         </div>
       </div>
@@ -68,17 +68,17 @@
             <div class="row">
               <div class="col-9">
                 <div class="d-flex align-items-center align-self-start">
-                  <h3 class="mb-0">{{totalCustomers.[0].username}}</h3>
+                  <h3 class="mb-0">{{totalRevenue}}</h3>
                   {{!-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> --}}
                 </div>
               </div>
               <div class="col-3">
-                <div class="icon icon-box-warning ">
-                  <span class="mdi mdi-account-multiple-plus icon-item"></span>
+                <div class="icon icon-box-danger ">
+                  <span class="mdi mdi-chart-line icon-item"></span>
                 </div>
               </div>
             </div>
-            <h6 class="text-muted font-weight-normal">Total Customers</h6>
+            <h6 class="text-muted font-weight-normal">Total Revenue</h6>
           </div>
         </div>
       </div>

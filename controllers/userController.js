@@ -305,6 +305,11 @@ const cart = async (req, res) => {
         products = await userHelpers.getCartProducts(req.session.user._id)
         totalValue = await userHelpers.getTotalAmount(req.session.user._id)
         totalValue = Math.round(totalValue[0].total)
+        // totalValue = totalValue[0].total
+        for(let i=0;i<products.length;i++){
+            products[i].product.subCatOfferPrice=Math.round(products[i].product.subCatOfferPrice)
+            products[i].product.offerPrice=Math.round(products[i].product.offerPrice)
+        }
 
         console.log(products);
         //  console.log(totalValue);

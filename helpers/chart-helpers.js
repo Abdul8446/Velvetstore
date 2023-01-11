@@ -8,7 +8,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let codTotal = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
-                    $match: { paymentMethod: 'COD' }
+                    $match: { paymentMethod: 'COD','status': { $nin: ['cancelled', 'returned', 'return approval pending'] } }
                 },
                 {
                     $project: { totalAmount: 1 }
@@ -28,7 +28,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let razorTotalSale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
-                    $match: { paymentMethod: 'ONLINE' }
+                    $match: { paymentMethod: 'ONLINE' ,'status': { $nin: ['cancelled', 'returned', 'return approval pending'] }}
                 },
                 {
                     $project: { totalAmount: 1 }
@@ -50,7 +50,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let paypalTotalSale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
-                    $match: { paymentMethod: 'PAYPAL' }
+                    $match: { paymentMethod: 'PAYPAL' ,'status': { $nin: ['cancelled', 'returned', 'return approval pending'] }}
                 },
                 {
                     $project: { totalAmount: 1 }
@@ -164,13 +164,51 @@ module.exports = {
                         _id: -1
                     }
                 },
-                {
-                    $limit: 7
-                },
+                // {
+                //     $limit: 7
+                // },
             ]).toArray()
             console.log('Daily Sales');
             console.log(dailySales)
             resolve(dailySales)
+        })
+    },
+    getDailySalesTotal: () => {
+        return new Promise(async (resolve, reject) => {
+            let dailySalesTotal = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        'status': { $nin: ['cancelled', 'returned', 'return approval pending'] }
+                    }
+                },
+                {
+                    $group: {
+                        _id: '$date',
+                        totalAmount: { $sum: '$totalAmount' },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: {
+                        _id: 1
+                    }
+                },
+                // {
+                //     $limit: 7
+                // },
+                {
+                    $project: {
+                        totalAmount: 1,
+                    }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: '$totalAmount' }
+                    }
+                }
+            ]).toArray()
+            resolve(dailySalesTotal[0].total)
         })
     },
     getMonthlySales: () => {
@@ -201,6 +239,40 @@ module.exports = {
             resolve(monthlySales)
         })
     },
+    getMonthlySalesTotal: () => {
+        return new Promise(async (resolve, reject) => {
+            let monthlySales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        'status': { $nin: ['cancelled', 'returned', 'return approval pending'] }
+                    }
+                },
+                {
+                    $project: {
+                        isoDate: { $dateFromString: { dateString: "$date" } },
+                        totalAmount: 1
+                    }
+                },
+                {
+                    $group: {
+                        _id: { $dateToString: { format: "%Y-%m", date: "$isoDate" } },
+                        totalAmount: { $sum: "$totalAmount" },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: { _id: -1 }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: '$totalAmount' }
+                    }
+                }
+            ]).toArray()
+            resolve(monthlySales[0].total)
+        })
+    },
     getYearlySalesReport: () => {
         return new Promise(async (resolve, reject) => {
             let yearlySales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
@@ -229,42 +301,38 @@ module.exports = {
             resolve(yearlySales)
         })
     },
-    getDailySalesTotal: () => {
+    getYearlySalesTotal: () => {
         return new Promise(async (resolve, reject) => {
-            let dailySalesTotal = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+            let yearlySales = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
                     $match: {
                         'status': { $nin: ['cancelled', 'returned', 'return approval pending'] }
                     }
                 },
                 {
-                    $group: {
-                        _id: '$date',
-                        totalAmount: { $sum: '$totalAmount' },
-                        count: { $sum: 1 }
-
-                    }
-                },
-                {
-                    $sort: {
-                        _id: 1
-                    }
-                },
-                {
-                    $limit: 7
-                },
-                {
                     $project: {
-                        totalAmount: 1,
+                        isoDate: { $dateFromString: { dateString: "$date" } },
+                        totalAmount: 1
                     }
-                }, {
+                },
+                {
+                    $group: {
+                        _id: { $dateToString: { format: "%Y", date: "$isoDate" } },
+                        totalAmount: { $sum: "$totalAmount" },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: { _id: 1 }
+                },
+                {
                     $group: {
                         _id: null,
                         total: { $sum: '$totalAmount' }
                     }
                 }
             ]).toArray()
-            resolve(dailySalesTotal[0].total)
+            resolve(yearlySales[0].total)
         })
     },
     findTotalCustomers: () => {
@@ -273,7 +341,7 @@ module.exports = {
                 {
                     $count: 'username'
                 },
-            ]).toArray()      
+            ]).toArray()
             resolve(totalCustomers)
         })
     },
