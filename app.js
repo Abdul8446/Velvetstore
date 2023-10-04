@@ -56,7 +56,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret:'Key',cookie:{maxAge:6000000}}))
+app.use(session({
+  secret:'Key',
+  cookie:{maxAge:6000000},
+  resave: false, // Set to false to avoid the deprecation warning
+  saveUninitialized: true, // Set to true or false as per your application's needs
+  }))
 db.connect((err)=>{
   if(err)
   console.log('Connection Error'+err);
