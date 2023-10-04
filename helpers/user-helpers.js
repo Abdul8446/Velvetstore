@@ -143,7 +143,7 @@ module.exports = {
                 let price;
                 let offer;
                 if (productPrice.discount.status) {
-                    if (productPrice.subCatDiscount.status) {
+                    if (productPrice.subCatDiscount?.status) {
                         if (productPrice.subCatDiscount.percent >= productPrice.discount.percent) {
                             price = productPrice.subCatOfferPrice
                             offer = productPrice.subCatDiscount.percent
@@ -170,8 +170,8 @@ module.exports = {
                     MRP: productPrice.MRP,
                     quantity: 1,
                     price: price,
-                    offer: offer
-                }
+                    offer: offer   
+                }   
                 let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
                 if (userCart) {
                     let prodExist = userCart.products.findIndex(product => product.item == prodId)
